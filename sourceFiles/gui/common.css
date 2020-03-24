@@ -1,0 +1,44 @@
+@font-face{
+  font-family: 'Poppins';
+  src: url("common/Poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url("common/Montserrat/Montserrat-Regular.ttf");
+}
+
+/* don't trust those paths to not change when bundling as .exe */
+
+*{
+  user-select: none;
+  font-family: 'Poppins'
+}
+
+.header-container {
+  width: 100%;
+  text-align: center;
+  height: 0.1%;
+  /*has to have a height or else it overlaps with the rest, but having an actual height pushes the page around too much */
+}
+
+.logo {
+  float: left;
+  width: auto;
+  display: block;
+}
+
+.links {
+  display: block;
+  float: right;
+  width: auto;
+  align-items: center;
+  align-content: center;
+}
+
+.link {
+  font-size: 1rem;
+  font-family: Montserrat;
+  text-decoration: none;
+  margin: 0 0.4rem;
+}

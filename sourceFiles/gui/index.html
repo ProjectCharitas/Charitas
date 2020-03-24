@@ -1,0 +1,126 @@
+<html>
+
+<head>
+    <title>Charitas</title>
+    <script type="text/javascript" src="miner.js"></script>
+    <link rel="stylesheet" type="text/css" href="common.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link id = "theme" rel="stylesheet" type="text/css">
+</head>
+
+<body onload = "searchForOpenMiners()">
+    <!--HEADER-->
+
+    <div class="main">
+        <h1 class="name">Charitas</h1>
+        <h2 class="mission">Reinventing Donations</h2>
+    </div>
+    <style id = "anim-off"></style>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" id="mine-button" onclick="clicked(this)">
+        <!---->
+        <defs data-v-fde0c5aa="">
+            <!---->
+        </defs>
+        <rect fill="transparent" x="0" y="0" width="256px" height="256px" class="logo-background-square"></rect>
+        <!---->
+        <defs data-v-fde0c5aa="">
+            <linearGradient gradientTransform="rotate(25)" id="b2b8c2e9-310a-4518-bf73-144d0399b9a1" x1="0%" y1="0%"
+                x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0D7CE9" stop-opacity="1"></stop>
+                <stop offset="100%" stop-color="#15CFF1" stop-opacity="1"></stop>
+            </linearGradient>
+        </defs>
+        <g id="arrows" class="off" fill="url(#b2b8c2e9-310a-4518-bf73-144d0399b9a1)" stroke="none">
+            <path d="M260,178.8136749267578L230.81631469726562,145.52183532714844L201.6326446533203,178.8136749267578l18.542861938476562,0a74.79999610900877,74.79999610900877,0,0,1,-140.03673553466797,-5.3204193115234375a12.212244262695311,12.212244262695311,0,1,0,-23.391834259033203,7.67755126953125a99.24693361282347,99.24693361282347,0,0,0,187.67345809936523,2.2448883056640625a12.144897327423093,12.144897327423093,0,0,0,0.6959228515625,-4.489776611328125ZM69.18367004394531,154.5014190673828l29.183670043945312,-33.291831970214844l-16.47754669189453,0a74.84489406585692,74.84489406585692,0,0,1,139.54285430908203,3.6591796875a12.212244262695311,12.212244262695311,0,1,0,22.987747192382812,-8.193870544433594a99.2244846343994,99.2244846343994,0,0,0,-188.41427612304688,4.489799499511719L40,121.1646957397461Z">
+            </path>
+        </g>
+        <g fill="url(#b2b8c2e9-310a-4518-bf73-144d0399b9a1)" id="center-button" class="off">
+            <path d="M 129.60,115.07
+            C 126.72,118.97 128.00,128.07 128.00,133.00
+              128.00,133.00 128.00,177.00 128.00,177.00
+              128.01,179.71 127.35,185.10 131.15,185.46
+              134.08,185.75 143.97,179.54 147.00,177.86
+              147.00,177.86 179.00,160.30 179.00,160.30
+              181.43,158.97 191.05,153.96 192.38,152.37
+              196.57,147.36 184.34,142.59 181.00,140.77
+              181.00,140.77 145.00,121.00 145.00,121.00
+              140.81,118.62 134.37,113.66 129.60,115.07 Z">
+
+            </path>
+        </g>
+        <!---->
+    </svg>
+    <script type="text/javascript" src = "load.js"></script>
+    <script type="text/javascript">
+    //Check for Updates
+    const https = require('https');
+    const options = {
+        hostname: 'charitas.co',
+        port: 443,
+        path: "/version.json",
+        method: 'GET'
+    }
+    const req = https.request(options, (res) => {
+        res.on('data', d => {
+            const appVersion = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'))).version;
+            const webVersion = JSON.parse(d).version
+            if(appVersion !== webVersion){
+                console.log("not equal");
+                
+                document.body.innerHTML += `
+                <style>
+                    .alert-modal{
+                        position: fixed; 
+                        z-index: 100; 
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        overflow: auto;
+                        background-color: rgb(0,0,0);
+                        background-color: rgba(0,0,0,0.4); 
+                    }
+                    .alert-modal-content{
+                        background-color: #fefefe;
+                        margin: 15% auto;
+                        padding: 20px;
+                        border: 1px solid #888;
+                        width: 80%;
+                        border-radius: 25px;
+                    }
+                    .alert-modal-content * {
+                        color: black !important;
+                        font-size: 1.7rem;
+                        text-decoration-color: #19AAEE;
+                    }
+
+                    .close {
+                        color: #aaa;
+                        float: right;
+                        font-size: 28px;
+                        font-weight: bold;
+                    }
+                    .close:hover, .close:focus{
+                        color: black;
+                        text-decoration: none;
+                        cursor: pointer;
+                    }
+                </style>
+                <div class = "alert-modal" id = "version-alert">
+                    <div class = "alert-modal-content">
+                        <span class = "close" onclick = "document.getElementById('version-alert').style.display = 'none';" >&times;</span>
+                        <p>You are using an outdated version of the Charitas client!<br><br>Please <a href = "${JSON.parse(d).link}" alt = "New version of Charitas">download the latest version</a> from <a href = "https://charitas.co" target="_blank">our website</a>.</p>
+                    </div>
+                <div>
+                `
+            }
+        })
+    })
+    req.on('error', (err) => {
+        console.error(err);
+    })
+    req.end();
+    </script>
+</body>
+
+</html>

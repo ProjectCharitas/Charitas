@@ -1,0 +1,21 @@
+<script type="text/javascript">
+  const fs = require('fs');
+  const path = require('path');
+  let opts = JSON.parse(fs.readFileSync(`${process.env.APPDATA}\\charitas\\options.json`));
+</script>
+<div class="header-container">
+  <a class="logo" href = "index.html">
+    <svg height="24px" width="24px" viewBox="0 0 64 64" class = "home-button">
+      <g>
+        <polygon
+          points="51,55 40,55 40,41 24,41 24,55 13,55 13,34 9,34 9,59 28,59 28,45 36,45 36,59 55,59 55,34 51,34 	" />
+        <path
+          d="M53,21.3V6H41v4.4l-9-8.1L-0.3,31.5l2.7,3L32,7.7l29.7,26.8l2.7-3L53,21.3z M45,10h4v7.7L45,14V10z" />
+      </g>
+    </svg>
+  </a>
+  <div class="links">
+    <a class="link" href="settings.html">Settings</a>
+    <a class="link" href = "help.html">Help</a>
+  </div>
+</div>

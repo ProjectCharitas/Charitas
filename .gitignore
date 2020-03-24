@@ -30,6 +30,12 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+x32Compiled/
+x64Compiled/
+prodApp/
+testApp/
+node_modules/
+*.msi
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

@@ -1,0 +1,20 @@
+body {
+   background-image: radial-gradient(#74799c, #394b64, #293548)
+}
+
+* {
+   color: white;
+}
+
+.link {
+   color: white;
+}
+
+#save,
+#cancel {
+   text-shadow: 0.1rem 0.1rem black
+}
+
+.home-button {
+   fill: white;
+}

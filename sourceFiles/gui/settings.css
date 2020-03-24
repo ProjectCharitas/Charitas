@@ -1,0 +1,59 @@
+.settings-container {
+  width: 95%;
+  margin: 4.5% 2.5% 0%;
+}
+
+.settings-general {
+  width: 50%;
+}
+
+.toggle {
+  margin: 3% 0;
+}
+
+.settings-category {
+  font-size: 1.8rem;
+  font-weight: bold;
+  
+}
+
+.label{
+  
+  font-size: 1.6rem;
+}
+
+.settings-item {
+  
+  font-size: 1.3rem;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 1.6rem;
+  margin-right: 1rem;
+}
+
+.pools{
+  display: inline-block;
+}
+
+.pool{
+  float: right;
+}
+
+.footer-container {
+  width: 100%;
+  margin-top: 5%;
+  display: block;
+  text-align: center;
+}
+
+.footer-item {
+  text-decoration: none;
+  font-size: 18pt;
+  font-family: Montserrat;
+  margin: 0 5%;
+  text-transform: uppercase;
+}
+
+.el-switch-black>input[type="checkbox"]:checked+.el-switch-style{
+  background-color: black !important;
+}

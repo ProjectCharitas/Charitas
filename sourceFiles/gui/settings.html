@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>Charitas</title>
+    <script type="text/javascript" src="toggle.js"></script>
+    <link rel="stylesheet" type="text/css" href="settings.css">
+    <link rel="stylesheet" type="text/css" href="common.css">
+    <link rel="stylesheet" type="text/css" href="checkbox.css">
+    <link id="theme" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <!--HEADER-->
+
+    <div class="settings-container">
+        <div class="settings-general">
+            <div class="settings-category">General Settings</div>
+            <br />
+            <div class="group">
+                <div class="label">Miner</div>
+                <div class="toggles">
+                    <div class="toggle">
+                        <label for="cpu" class="settings-item">CPU</label>
+                        <label class="el-switch el-switch-blue">
+                            <input id="cpu" type="checkbox" onchange="toggle(this)" checked>
+                            <span class="el-switch-style"></span>
+                        </label>
+                    </div>
+                    <div class="toggle">
+                        <label for="gpu" class="settings-item">GPU</label>
+                        <label class="el-switch el-switch-blue">
+                            <input id="gpu" type="checkbox" onchange="toggle(this)" checked>
+                            <span class="el-switch-style"></span>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="toggle">
+                        <label for="startup" class="settings-item">Launch on Startup</label>
+                        <label class="el-switch el-switch-blue">
+                            <input id="startup" type="checkbox" onchange="toggle(this)">
+                            <span class="el-switch-style"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="group">
+                <div class="label">Theme</div>
+                <div class="toggle">
+                    <label for="dark" class="settings-item">Light</label>
+                    <label class="el-switch el-switch-black">
+                        <input id="dark" type="checkbox" onchange="toggle(this); load();">
+                        <span class="el-switch-style"></span>
+                    </label>
+                    <label style="margin-left: 4%" for="dark" class="settings-item">Dark</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DO NOT DO THIS PLEASE -->
+    <!-- 
+        basically to get settings to "save" I'm reading the state of options.json 
+        then changing the state of the buttons as the page loads and hoping no users click fast.
+        If we leave this in the final prod version I'm filing a lawsuit for gross negligence. 
+    -->
+    <script>
+        const options = require(`${process.env.APPDATA}\\charitas\\options.json`);
+        for (let o in options) {
+            if (options[o]) {
+                document.getElementById(o).checked = true;
+            } else {
+                document.getElementById(o).checked = false;
+            }
+        }
+    </script>
+    <div class="footer-container">
+        <a class="footer-item" id="save" onclick="goback()" href="index.html">save</a>
+        <a class="footer-item" id="cancel" href="index.html">cancel</a>
+    </div>
+    <script type="text/javascript" src="load.js"></script>
+</body>
+
+</html>

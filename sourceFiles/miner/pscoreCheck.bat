@@ -1,0 +1,1 @@
+pwsh -Command Write-Output "Powershell 6+ is installed"

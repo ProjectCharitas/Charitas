@@ -1,0 +1,53 @@
+.main{
+  width: 75%;
+  display: inline-block;
+  margin: 2% 12.5% 0%;
+  font-family: Montserrat;
+  text-align: center;
+}
+
+.mission{
+  font-size: 1.8rem;
+  margin-top: 2%;
+}
+
+.name{
+  margin-bottom: 2%;
+  font-size: 3.3rem;
+  font-weight: 900;
+}
+#mine-button{
+    display: block;
+    margin: 0 auto;
+    height: 15rem;
+    width: 15rem;
+}
+
+.off {
+  fill: gray
+}
+
+.on {
+  fill: url(#b2b8c2e9-310a-4518-bf73-144d0399b9a1);
+}
+
+#arrows{
+  transform-origin: 50.35% 50%;
+}
+
+#arrows.on{
+  animation: spin 3s infinite linear;
+}
+
+#arrows.off{
+  animation: unspin 2s;
+}
+
+@keyframes spin {
+  from{
+    transform: rotate(360deg);
+  }
+  to{
+    transform: rotate(0deg);
+  }
+}

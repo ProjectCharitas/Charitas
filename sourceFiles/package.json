@@ -1,0 +1,20 @@
+{
+  "name": "charitas",
+  "version": "1.0.0",
+  "description": "Use your computer to mine cryptocurrency for charities.",
+  "main": "./gui/main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^8.1.1"
+  },
+  "author": "Camp Steiner, John Stanwick",
+  "license": "GPL-3.0-only",
+  "scripts":{
+    "test": "node ..\\build.js -t",
+    "start": "node ..\\build.js -b"
+  },
+  "bugs": {
+    "url": "https://github.com/Lohanness/Charitas/issues"
+  },
+  "homepage": "https://github.com/Lohanness/Charitas#readme"
+}

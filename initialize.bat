@@ -1,0 +1,1 @@
+npm i && cd sourceFiles && npm i && cd .. && curl -L https://github.com/PowerShell/PowerShell/releases/download/v7.0.0/PowerShell-7.0.0-win-x64.msi > PowerShell-7.0.0-win-x64.msi && curl -L https://github.com/PowerShell/PowerShell/releases/download/v7.0.0/PowerShell-7.0.0-win-x86.msi > PowerShell-7.0.0-win-x86.msi && del initialize.bat

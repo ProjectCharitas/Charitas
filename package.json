@@ -1,0 +1,18 @@
+{
+  "name": "charitas",
+  "version": "1.0.0",
+  "description": "Charitas: Reinventing Donations. Charitas makes it easy for anyone to donate to charity, by mining cryptocurrency using idle computing power.",
+  "dependencies": {},
+  "devDependencies": {
+    "electron-packager": "^14.2.1",
+    "fs-extra": "^9.0.0",
+    "node-minify": "^3.6.0"
+  },
+  "scripts": {
+    "test": "node build.js -t",
+    "start": "node build.js -b"
+  },
+  "author": "Camp Steiner, John Stanwick",
+  "license": "GPL-3.0-only",
+  "private": true
+}
