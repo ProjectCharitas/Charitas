@@ -9,7 +9,7 @@
   },
   "author": "Camp Steiner, John Stanwick",
   "license": "GPL-3.0-only",
-  "scripts":{
+  "scripts": {
     "test": "node ..\\build.js -t",
     "start": "node ..\\build.js -b"
   },
