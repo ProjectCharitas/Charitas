@@ -72,9 +72,8 @@ const deleteOldTestDir = () => {
       fs.rmdirSync(`${TESTDIR}\\miner`, {
          recursive: true
       });
-      fs.unlinkSync(`${TESTDIR}\\package.json`);
       fs.readdir(`${TESTDIR}`, (err, files) => { //check and make sure it worked
-         if (files.length > 0) { // should only be /common
+         if (files.length > 1) { // should only be package.json
             reject(`Not all test files were deleted: ${files}`)
          } else {
             resolve("Wiped test dir");
