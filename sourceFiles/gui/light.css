@@ -22,3 +22,7 @@ body {
 .home-button {
    fill: black;
 }
+
+#mine-button:hover #arrows, #mine-button:hover #center-button{
+   fill: #a3a3a3;
+}
