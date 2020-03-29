@@ -20,6 +20,12 @@ body{
   font-weight: bold;
 }
 
+.toggles{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .settings-item-title{
   font-size:1.2rem;
 }

@@ -24,14 +24,25 @@ const createWindow = () => {
       "cpu": true,
       "gpu": true,
       "dark": false,
-      "startup": false
+      "startup": false,
     }), {
       flag: "w"
     })
   }
   exec(`wmic path win32_battery get BatteryStatus`, (err, stdout, stderr) => {
     if (stderr.length) global.isLaptop = false;
-    else if (stdout.length) global.isLaptop = true;
+    else if (stdout.length){
+      global.isLaptop = true;
+      fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify({
+        "cpu": true,
+        "gpu": true,
+        "dark": false,
+        "startup": false,
+        "laptop": true
+      }), {
+        flag: "w"
+      })
+    }
   })
   win.loadFile(path.join(__dirname, 'index.html'));
   win.on('closed', () => {

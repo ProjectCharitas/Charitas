@@ -1,6 +1,7 @@
 const {
     spawn,
-    exec
+    exec,
+    execSync
 } = require("child_process");
 
 let miner;
@@ -10,7 +11,6 @@ let state = false;
 const searchForOpenMiners = () => {
     exec(`wmic process WHERE "CommandLine LIKE '%--charitas-role=charitas-miner%' AND Name LIKE '%pwsh%'" get ProcessId | more +1`, (err, stdout, stderr) => {
         if (err) console.error(err);
-        console.log(stdout);        
         let procs = stdout.trim().split("\n").filter(p => p != "").map(p => p.trim());
         state = procs.length > 0;
         if (procs.length > 0) {
@@ -56,7 +56,6 @@ const killDuplicates = () => {
                 console.error(er);
             if (serr)
                 console.error(serr);
-            console.log(sout);
         }));
     });
 }
@@ -68,7 +67,11 @@ const toggleSpinner = () => {
 const clicked = (e) => {
     state = !state;
     if (state) { //miner turned on
-        startMining();
+        if (remote.getGlobal('isLaptop')) {
+            startMining(true);
+        } else {
+            startMining(false);
+        }
     } else { //miner turned off
         stopMining();
         document.getElementById("anim-off").innerHTML = `
@@ -85,62 +88,61 @@ const clicked = (e) => {
     }
 }
 
-const startMining = () => {
+const allowedToMine = () => {
     let opts = require(`${process.env.APPDATA}\\charitas\\options.json`);
-    let startup = spawn(path.join(__dirname, `../miner/CharitasCGPU.bat`));
-    startup.stdout.on('data', data => console.log(`stdout: ${data}`))
-    startup.stderr.on('data', data => {
-        console.error(`stderr: ${data}`);
-        if(data.toString().includes('pwsh')){
-            document.body.innerHTML += `
-                <style>
-                    .alert-modal{
-                        position: fixed; 
-                        z-index: 100; 
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        height: 100%;
-                        overflow: auto;
-                        background-color: rgb(0,0,0);
-                        background-color: rgba(0,0,0,0.4); 
-                    }
-                    .alert-modal-content{
-                        background-color: #fefefe;
-                        margin: 15% auto;
-                        padding: 20px;
-                        border: 1px solid #888;
-                        width: 80%;
-                        border-radius: 25px;
-                    }
-                    .alert-modal-content * {
-                        color: black !important;
-                        font-size: 1.7rem;
-                        text-decoration-color: #19AAEE;
-                    }
+    if (!opts['laptop']) {
+        return true;
+    }
+    let batteryStatus = execSync(`wmic path win32_battery get BatteryStatus`).toString().trim().split('\n')[1];
+    switch (batteryStatus) {
+        case "1":
+        case "4":
+        case "5":
+        case "8":
+        case "9":
+            return false;
+        case "2":
+        case "3":
+        case "6":
+        case "7":
+        case "10":
+        case "11":
+            return true;
+        default:
+            return true;
+    }
+}
 
-                    .close {
-                        color: #aaa;
-                        float: right;
-                        font-size: 28px;
-                        font-weight: bold;
-                    }
-                    .close:hover, .close:focus{
-                        color: darkred;
-                        text-decoration: none;
-                        cursor: pointer;
-                    }
-                </style>
+const startMining = (laptop) => {
+    if (!laptop || (laptop && allowedToMine())) {
+        let startup = spawn(path.join(__dirname, `../miner/CharitasCGPU.bat`));
+        startup.stdout.on('data', data => console.log(`stdout: ${data}`))
+        startup.stderr.on('data', data => {
+            console.error(`stderr: ${data}`);
+            if (data.toString().includes('pwsh')) {
+                document.body.innerHTML += `
+                <style>.alert-modal{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,.4)}.alert-modal-content{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;border-radius:25px}.alert-modal-content *{color:black!important;font-size:1.7rem;text-decoration-color:#19AAEE}.close{color:#aaa;float:right;font-size:28px;font-weight:700}.close:hover,.close:focus{color:darkred;text-decoration:none;cursor:pointer}</style>
                 <div class = "alert-modal" id = "powershell-alert">
                     <div class = "alert-modal-content">
-                        <span class = "close" onclick = "document.getElementsById('powershell-alert').style.display = 'none';" >&times;</span>
+                        <span class = "close" onclick = "document.getElementById('powershell-alert').style.display = 'none';" >&times;</span>
                         <p>Error! PowerShell version 6.2+ was not installed properly or cannot be found. Please either reinstall Charitas from our website, or download the latest version of PowerShell Core free from <a href="https://github.com/PowerShell/PowerShell/releases/">Microsoft</a></p>
                     </div>
                 <div>
                 `
-        }        
-    });
-    searchForOpenMiners();
+            }
+        });
+        searchForOpenMiners();
+    } else {
+        document.body.innerHTML += `
+                <style>.alert-modal{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,.4)}.alert-modal-content{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;border-radius:25px}.alert-modal-content *{color:black!important;font-size:1.7rem;text-decoration-color:#19AAEE}.close{color:#aaa;float:right;font-size:28px;font-weight:700}.close:hover,.close:focus{color:darkred;text-decoration:none;cursor:pointer}</style>
+                <div class = "alert-modal" id = "laptop-alert">
+                    <div class = "alert-modal-content">
+                        <span class = "close" onclick = "document.getElementById('laptop-alert').style.display = 'none';" >&times;</span>
+                        <p>Laptop mode prevented Charitas from launching. Please ensure your laptop is plugged in and recieving power, or disable laptop mode in settings to prevent this message from appearing.</p>
+                    </div>
+                <div>
+                `
+    }
 }
 
 const stopMining = () => {

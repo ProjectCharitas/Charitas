@@ -38,7 +38,7 @@
                             <span class="el-switch-style"></span>
                         </label>
                     </div>
-                    <div class="toggle">
+                    <div class="toggle" id = "laptop-mode" style = "display: none">
                         <label for="laptop" class="settings-item-title">Laptop Mode</label>
                         <label class="el-switch el-switch-blue">
                             <input id="laptop" type="checkbox" onchange="toggle(this)">
@@ -71,6 +71,9 @@
         If we leave this in the final prod version I'm filing a lawsuit for gross negligence. 
     -->
     <script>
+        if(remote.getGlobal('isLaptop')){
+            document.getElementById('laptop-mode').style.display = '';
+        }
         const options = require(`${process.env.APPDATA}\\charitas\\options.json`);
         for (let o in options) {
             if (options[o]) {
