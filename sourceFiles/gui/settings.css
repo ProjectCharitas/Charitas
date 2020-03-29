@@ -6,7 +6,7 @@ body{
 
 .settings-container {
   width: 95%;
-  margin: 0 2.5%;
+  margin: 0 1.5%;
 }
 
 .settings-general{
@@ -26,8 +26,13 @@ body{
   justify-content: space-between;
 }
 
+.toggle{
+  padding: 0.5% 0
+}
+
 .settings-item-title{
   font-size:1.2rem;
+  vertical-align: super;
 }
 
 .settings-item-description{
@@ -40,7 +45,7 @@ body{
 
 .footer-container {
   width: 100%;
-  margin-top: 5%;
+  margin-bottom: 2%;
   display: block;
   text-align: center;
 }

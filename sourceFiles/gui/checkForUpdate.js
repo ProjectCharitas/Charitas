@@ -10,8 +10,6 @@ const https = require('https');
             const appVersion = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'))).version;
             const webVersion = JSON.parse(d).version
             if(appVersion !== webVersion){
-                console.log("not equal");
-                
                 document.body.innerHTML += `
                 <style>
                     .alert-modal{
