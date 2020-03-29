@@ -19,6 +19,7 @@ IF %cputog%==true (
 ) ELSE (
     set "toggler=nvidia,amd"
 )
+
 rem ON MINING RIGS SET MININGRIG=TRUE
 SET MININGRIG=FALSE
 
@@ -37,8 +38,7 @@ if /I "%MININGRIG%" EQU "TRUE" goto MINING
 
 if exist ".\SnakeTail.exe" goto SNAKETAIL
 
-REM start /min /belownormal pwsh -noexit -windowstyle hidden -executionpolicy bypass -command "& .\reader.ps1 -log 'MultiPoolMiner_\d\d\d\d-\d\d-\d\d\.txt' -sort '^[^_]*_' -quickstart --charitas-role=charitas-log"
-start /min /belownormal pwsh -noexit -executionpolicy bypass -command "& .\reader.ps1 -log 'MultiPoolMiner_\d\d\d\d-\d\d-\d\d\.txt' -sort '^[^_]*_' -quickstart --charitas-role=charitas-log"
+start /min /belownormal pwsh -noexit -windowstyle hidden -executionpolicy bypass -command "& .\reader.ps1 -log 'MultiPoolMiner_\d\d\d\d-\d\d-\d\d\.txt' -sort '^[^_]*_' -quickstart --charitas-role=charitas-log"
 goto MINING
 
 :SNAKETAIL
@@ -46,6 +46,5 @@ tasklist /fi "WINDOWTITLE eq SnakeTail - MPM_SnakeTail_LogReader*" /fo TABLE 2>n
 if "%ERRORLEVEL%"=="1" start /min .\SnakeTail.exe .\MPM_SnakeTail_LogReader.xml
 
 :MINING
-REM start /min /belownormal pwsh -noexit -executionpolicy bypass -windowstyle hidden -command "%command%"
-start /min /belownormal pwsh -noexit -executionpolicy bypass -command "%command%"
+start /min /belownormal pwsh -noexit -executionpolicy bypass -windowstyle hidden -command "%command%"
 exit /b
