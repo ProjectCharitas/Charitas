@@ -62,11 +62,15 @@ const killDuplicates = () => {
 
 const toggleSpinner = () => {
     [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', state ? 'on' : 'off'));
+    setTimeout(() => {
+        document.getElementById('status-text').textContent = ""
+    }, 550)
 }
 
 const clicked = (e) => {
     state = !state;
     if (state) { //miner turned on
+        document.getElementById('status-text').textContent = "Starting Miner..."
         if (remote.getGlobal('isLaptop')) {
             startMining(true);
         } else {
@@ -74,6 +78,7 @@ const clicked = (e) => {
         }
     } else { //miner turned off
         if (typeof miner.kill == 'function') {
+            document.getElementById('status-text').textContent = "Stopping Miner..."
             stopMining();
             document.getElementById("anim-off").innerHTML = `
         @keyframes unspin {

@@ -43,6 +43,11 @@
   animation: unspin 2s;
 }
 
+#status-text{
+  text-align: center;
+  font-size: 1.1rem;
+}
+
 @keyframes spin {
   from{
     transform: rotate(360deg);
