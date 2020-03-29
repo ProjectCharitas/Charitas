@@ -1,13 +1,15 @@
 @echo off
 cd /d %~dp0
 
-FOR /F "tokens=1,2 delims==" %%A IN (charitas.properties) DO (
-    IF "%%A"=="cputoggle" SET cputog=%%B 
-)
-FOR /F "tokens=1,2 delims==" %%A IN (charitas.properties) DO (
-    IF "%%A"=="gputoggle" SET gputog=%%B
-)
+:: FOR /F "tokens=1,2 delims==" %%A IN (charitas.properties) DO (
+::    IF "%%A"=="cputoggle" SET cputog=%%B 
+::)
+::FOR /F "tokens=1,2 delims==" %%A IN (charitas.properties) DO (
+::    IF "%%A"=="gputoggle" SET gputog=%%B
+::)
 
+SET cputog=%1
+SET gputog=%2
 REM Call using %cputog%, not dbl %
 
 IF %cputog%==true (
