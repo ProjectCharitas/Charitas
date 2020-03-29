@@ -5,17 +5,17 @@
     <script type="text/javascript" src="miner.js"></script>
     <link rel="stylesheet" type="text/css" href="common.css">
     <link rel="stylesheet" type="text/css" href="style.css">
-    <link id = "theme" rel="stylesheet" type="text/css">
+    <link id="theme" rel="stylesheet" type="text/css">
 </head>
 
-<body onload = "searchForOpenMiners()">
+<body onload="searchForOpenMiners()">
     <!--HEADER-->
 
     <div class="main">
         <h1 class="name">Charitas</h1>
         <h2 class="mission">Reinventing Donations</h2>
     </div>
-    <style id = "anim-off"></style>
+    <style id="anim-off"></style>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" id="mine-button" onclick="clicked(this)">
         <!---->
         <defs data-v-fde0c5aa="">
@@ -31,7 +31,8 @@
             </linearGradient>
         </defs>
         <g id="arrows" class="off" fill="url(#b2b8c2e9-310a-4518-bf73-144d0399b9a1)" stroke="none">
-            <path d="M260,178.8136749267578L230.81631469726562,145.52183532714844L201.6326446533203,178.8136749267578l18.542861938476562,0a74.79999610900877,74.79999610900877,0,0,1,-140.03673553466797,-5.3204193115234375a12.212244262695311,12.212244262695311,0,1,0,-23.391834259033203,7.67755126953125a99.24693361282347,99.24693361282347,0,0,0,187.67345809936523,2.2448883056640625a12.144897327423093,12.144897327423093,0,0,0,0.6959228515625,-4.489776611328125ZM69.18367004394531,154.5014190673828l29.183670043945312,-33.291831970214844l-16.47754669189453,0a74.84489406585692,74.84489406585692,0,0,1,139.54285430908203,3.6591796875a12.212244262695311,12.212244262695311,0,1,0,22.987747192382812,-8.193870544433594a99.2244846343994,99.2244846343994,0,0,0,-188.41427612304688,4.489799499511719L40,121.1646957397461Z">
+            <path
+                d="M260,178.8136749267578L230.81631469726562,145.52183532714844L201.6326446533203,178.8136749267578l18.542861938476562,0a74.79999610900877,74.79999610900877,0,0,1,-140.03673553466797,-5.3204193115234375a12.212244262695311,12.212244262695311,0,1,0,-23.391834259033203,7.67755126953125a99.24693361282347,99.24693361282347,0,0,0,187.67345809936523,2.2448883056640625a12.144897327423093,12.144897327423093,0,0,0,0.6959228515625,-4.489776611328125ZM69.18367004394531,154.5014190673828l29.183670043945312,-33.291831970214844l-16.47754669189453,0a74.84489406585692,74.84489406585692,0,0,1,139.54285430908203,3.6591796875a12.212244262695311,12.212244262695311,0,1,0,22.987747192382812,-8.193870544433594a99.2244846343994,99.2244846343994,0,0,0,-188.41427612304688,4.489799499511719L40,121.1646957397461Z">
             </path>
         </g>
         <g fill="url(#b2b8c2e9-310a-4518-bf73-144d0399b9a1)" id="center-button" class="off">
@@ -50,9 +51,33 @@
         </g>
         <!---->
     </svg>
-    <script type="text/javascript" src = "load.js"></script>
-    <script type="text/javascript" src = "checkForUpdate.js"></script>
-    <script type = "text/javascript" src="tutorial.js"></script>
+    <div class="alert-modal" id="powershell-alert" style="display: none">
+        <div class="alert-modal-content">
+            <span class="close"
+                onclick="document.getElementById('powershell-alert').style.display = 'none';">&times;</span>
+            <p>Error! PowerShell version 6.2+ was not installed properly or cannot be found. Please either reinstall
+                Charitas from our website, or download the latest version of PowerShell Core free from <a
+                    href="https://github.com/PowerShell/PowerShell/releases/">Microsoft</a></p>
+        </div>
+    </div>
+    <div class="alert-modal" id="laptop-alert" style="display: none">
+        <div class="alert-modal-content">
+            <span class="close" onclick="document.getElementById('laptop-alert').style.display = 'none';">&times;</span>
+            <p>Laptop mode prevented Charitas from launching. Please ensure your laptop is plugged in and recieving
+                power, or disable laptop mode in settings to prevent this message from appearing.</p>
+        </div>
+    </div>
+    <div class = "alert-modal" id = "version-alert" style = "display: none">
+        <div class = "alert-modal-content">
+            <span class = "close" onclick = "document.getElementById('version-alert').style.display = 'none';" >&times;</span>
+            <p>You are using an outdated version of the Charitas client!<br>
+            Your version is <span style = "font-weight: bold">${appVersion}</span>, while the latest version is <span style = "font-weight: bold">${webVersion}</span>. New in this update: <br>${JSON.parse(d).description}<br><br>
+            Please <a href = "${JSON.parse(d).link}" alt = "New version of Charitas">download the latest version</a> from <a href = "https://charitas.co" target="_blank">our website</a>.</p>
+        </div>
+    </div>
+    <script type="text/javascript" src="load.js"></script>
+    <script type="text/javascript" src="checkForUpdate.js"></script>
+    <script type="text/javascript" src="tutorial.js"></script>
 </body>
 
 </html>

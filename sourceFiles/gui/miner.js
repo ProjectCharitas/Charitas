@@ -73,8 +73,9 @@ const clicked = (e) => {
             startMining(false);
         }
     } else { //miner turned off
-        stopMining();
-        document.getElementById("anim-off").innerHTML = `
+        if (typeof miner.kill == 'function') {
+            stopMining();
+            document.getElementById("anim-off").innerHTML = `
         @keyframes unspin {
             from {
                 transform: rotate(${-1 * (Math.asin(getComputedStyle(document.getElementById("arrows"))['transform'].replace(/[a-z()]/g,"").split(",")[1]) * 180/Math.PI)}deg);
@@ -84,7 +85,10 @@ const clicked = (e) => {
             }
         }
         `;
-        toggleSpinner();
+            toggleSpinner();
+        } else {
+            clicked(e)
+        }
     }
 }
 
@@ -120,28 +124,18 @@ const startMining = (laptop) => {
         startup.stderr.on('data', data => {
             console.error(`stderr: ${data}`);
             if (data.toString().includes('pwsh')) {
-                document.body.innerHTML += `
-                <style>.alert-modal{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,.4)}.alert-modal-content{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;border-radius:25px}.alert-modal-content *{color:black!important;font-size:1.7rem;text-decoration-color:#19AAEE}.close{color:#aaa;float:right;font-size:28px;font-weight:700}.close:hover,.close:focus{color:darkred;text-decoration:none;cursor:pointer}</style>
-                <div class = "alert-modal" id = "powershell-alert">
-                    <div class = "alert-modal-content">
-                        <span class = "close" onclick = "document.getElementById('powershell-alert').style.display = 'none';" >&times;</span>
-                        <p>Error! PowerShell version 6.2+ was not installed properly or cannot be found. Please either reinstall Charitas from our website, or download the latest version of PowerShell Core free from <a href="https://github.com/PowerShell/PowerShell/releases/">Microsoft</a></p>
-                    </div>
-                <div>
-                `
+                document.getElementById('powershell-alert').style.display = 'block';
             }
         });
         searchForOpenMiners();
     } else {
-        document.body.innerHTML += `
-                <style>.alert-modal{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,.4)}.alert-modal-content{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;border-radius:25px}.alert-modal-content *{color:black!important;font-size:1.7rem;text-decoration-color:#19AAEE}.close{color:#aaa;float:right;font-size:28px;font-weight:700}.close:hover,.close:focus{color:darkred;text-decoration:none;cursor:pointer}</style>
-                <div class = "alert-modal" id = "laptop-alert">
-                    <div class = "alert-modal-content">
-                        <span class = "close" onclick = "document.getElementById('laptop-alert').style.display = 'none';" >&times;</span>
-                        <p>Laptop mode prevented Charitas from launching. Please ensure your laptop is plugged in and recieving power, or disable laptop mode in settings to prevent this message from appearing.</p>
-                    </div>
-                <div>
-                `
+        miner = {
+            kill: "No miner was opened"
+        }
+        logger = {
+            kill: "No logger was opened"
+        }
+        document.getElementById('laptop-alert').style.display = "block"
     }
 }
 
