@@ -40,6 +40,7 @@ prodApp/
 testApp/
 node_modules/
 *.msi
+initialize.bat
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -360,3 +361,4 @@ MigrationBackup/
 .ionide/
 
 desktop.ini
+initialize.bat
