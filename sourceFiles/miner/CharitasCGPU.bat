@@ -19,8 +19,6 @@ IF %cputog%==true (
 ) ELSE (
     set "toggler=nvidia,amd"
 )
-echo %toggler%
-pause
 rem ON MINING RIGS SET MININGRIG=TRUE
 SET MININGRIG=FALSE
 
