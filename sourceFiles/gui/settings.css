@@ -1,42 +1,35 @@
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .settings-container {
   width: 95%;
-  margin: 4.5% 2.5% 0%;
+  margin: 0 2.5%;
 }
 
-.settings-general {
-  width: 50%;
-}
-
-.toggle {
-  margin: 3% 0;
-}
-
-.settings-category {
-  font-size: 1.8rem;
-  font-weight: bold;
-  
+.settings-general{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .label{
-  
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
-.settings-item {
-  
-  font-size: 1.3rem;
-  display: inline-block;
-  vertical-align: top;
-  line-height: 1.6rem;
-  margin-right: 1rem;
+.settings-item-title{
+  font-size:1.2rem;
 }
 
-.pools{
-  display: inline-block;
+.settings-item-description{
+  display: block;
 }
 
-.pool{
-  float: right;
+.el-switch{
+  padding: 1%;
 }
 
 .footer-container {
