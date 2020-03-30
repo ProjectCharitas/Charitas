@@ -14,7 +14,7 @@ const goback = () => {
     }).then( (shortcutExists) => {
         if(opts['startup']){
             if(!shortcutExists){
-                exec(`call "${path.join(__dirname, "../miner/copyStartup.bat")}"`, (err, stdout, stderr) => {
+                exec(`cd "${path.join(__dirname, "../miner")}" && call copyStartup.bat`, (err, stdout, stderr) => {
                     if (err) console.error(err);
                     if (stderr) console.error(stderr);
                 });
@@ -22,7 +22,7 @@ const goback = () => {
         }
         else {
             if(shortcutExists){
-                exec(`call "${path.join(__dirname, "../miner/deleteStartup.bat")}"`, (err, stdout, stderr) => {
+                exec(`cd "${path.join(__dirname, "../miner")}" && call deleteStartup.bat`, (err, stdout, stderr) => {
                     if (err) console.error(err);
                     if (stderr) console.error(stderr);
                 });
