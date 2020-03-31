@@ -49,4 +49,5 @@ if "%ERRORLEVEL%"=="1" start /min .\SnakeTail.exe .\MPM_SnakeTail_LogReader.xml
 
 :MINING
 start /min /belownormal pwsh -noexit -executionpolicy bypass -windowstyle hidden -command "%command%"
+echo "yea they opened"
 exit /b
