@@ -126,7 +126,7 @@ const allowedToMine = () => {
 const startMining = (laptop) => {
    if (!laptop || (laptop && allowedToMine())) {
       let startMiners = new Promise((resolve, reject) => {
-         let startup = spawn(path.join(__dirname, `../miner/Charitas.bat`), [opts['cpu'], opts['gpu']]);
+         let startup = spawn(path.join(__dirname, `../miner/Charitas.bat`));
          startup.stdout.on('data', data => resolve(data))
          startup.stderr.on('data', errdata => {
             if (data.toString().includes('pwsh')) {

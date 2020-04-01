@@ -14,7 +14,7 @@ const goback = () => {
     }).then( (shortcutExists) => {
         if(opts['startup']){
             if(!shortcutExists){
-                exec(`cd "${path.join(__dirname, "../miner")}" && call copyStartup.bat ${opts['cpu']} ${opts['gpu']}`, (err, stdout, stderr) => {
+                exec(`cd "${path.join(__dirname, "../miner")}" && call copyStartup.bat`, (err, stdout, stderr) => {
                     if (err) console.error(err);
                     if (stderr) console.error(stderr);
                 });

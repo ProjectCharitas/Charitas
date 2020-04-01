@@ -29,10 +29,6 @@ rem trim leading spaces
 FOR /F "tokens=1*" %%S in ("%cpu%") do (set cpu=%%S)
 FOR /F "tokens=1*" %%S in ("%gpu%") do (set gpu=%%S)
 
-echo %cpu%
-echo %gpu%
-
-
 IF %cpu%==true (
     IF %gpu%==true (
         set "toggler=cpu,nvidia,amd"

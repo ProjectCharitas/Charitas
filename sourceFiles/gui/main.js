@@ -15,7 +15,7 @@ const createWindow = () => {
     height: 600,
     resizable: true,
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: true
     }
   })
   if (!fs.existsSync(path.join(app.getPath('userData'), "options.json"))) {
