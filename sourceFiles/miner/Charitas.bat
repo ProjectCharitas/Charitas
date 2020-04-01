@@ -8,18 +8,43 @@ cd /d %~dp0
 ::    IF "%%A"=="gputoggle" SET gputog=%%B
 ::)
 
-SET cputog=%1
-SET gputog=%2
-REM Call using %cputog%, not dbl %
+setlocal enabledelayedexpansion
+set json=
+for /f "delims=" %%x in (%appdata%\charitas\options.json) do set "json=!json!%%x"
 
-IF %cputog%==true (
-    IF %gputog%==true (
+rem Remove quotes
+set json=%json:"=%
+
+rem Remove braces
+set "json=%json:~1,-1%"
+
+rem Separate parts at comma into individual assignments 
+
+FOR /F "tokens=1,2 delims=," %%J in ("%json%") do (
+FOR /F "tokens=2 delims=:" %%T in ("%%J") do (set cpu=%%T)
+FOR /F "tokens=2 delims=:" %%T in ("%%K") do (set gpu=%%T)
+)
+
+rem trim leading spaces
+FOR /F "tokens=1*" %%S in ("%cpu%") do (set cpu=%%S)
+FOR /F "tokens=1*" %%S in ("%gpu%") do (set gpu=%%S)
+
+echo %cpu%
+echo %gpu%
+
+
+IF %cpu%==true (
+    IF %gpu%==true (
         set "toggler=cpu,nvidia,amd"
     ) ELSE (
         set "toggler=cpu"
     )
 ) ELSE (
-    set "toggler=nvidia,amd"
+    IF %gpu%==true(
+        set "toggler=nvidia,amd"
+    ) ELSE (
+        set "toggler=cpu,nvidia,amd"
+    )
 )
 
 rem ON MINING RIGS SET MININGRIG=TRUE
@@ -32,7 +57,7 @@ if not "%GPU_MAX_ALLOC_PERCENT%"=="100" (setx GPU_MAX_ALLOC_PERCENT 100) > nul
 if not "%GPU_SINGLE_ALLOC_PERCENT%"=="100" (setx GPU_SINGLE_ALLOC_PERCENT 100) > nul
 if not "%CUDA_DEVICE_ORDER%"=="PCI_BUS_ID" (setx CUDA_DEVICE_ORDER PCI_BUS_ID) > nul
 
-set "command=& .\multipoolminer.ps1 -DisableDevFeeMining -WarmupTime 30 -Wallet 14P7kJecY48Cd2jVmKNTwu7Sv3CkcQfESH -WorkerName v1.0 -Region us -Currency btc -DeviceName %toggler% -PoolName nlpool,zpool -Donate 10 -Watchdog -MinerStatusURL https://multipoolminer.io/monitor/miner.php -SwitchingPrevention 1 --charitas-role=charitas-miner"
+set "command=& .\multipoolminer.ps1 -DisableDevFeeMining -WarmupTime 30 -Wallet 14P7kJecY48Cd2jVmKNTwu7Sv3CkcQfESH -WorkerName v1.0 -Region us -Currency btc -DeviceName %toggler% -PoolName blockmasters,nlpool,zpool -Donate 10 -Watchdog -MinerStatusURL https://multipoolminer.io/monitor/miner.php -SwitchingPrevention 1 --charitas-role=charitas-miner"
 
 if exist "~*.dll" del "~*.dll" > nul 2>&1
 
