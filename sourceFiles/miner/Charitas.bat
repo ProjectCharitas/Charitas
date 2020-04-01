@@ -40,7 +40,7 @@ IF %cpu%==true (
         set "toggler=cpu"
     )
 ) ELSE (
-    IF %gpu%==true(
+    IF %gpu%==true (
         set "toggler=nvidia,amd"
     ) ELSE (
         set "toggler=cpu,nvidia,amd"
