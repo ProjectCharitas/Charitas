@@ -28,12 +28,11 @@ const goback = () => {
                 });
             }
         }
+        fs.writeFile(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify(opts), (err) => {
+            if (err) console.error(err);
+        });
     }).catch( err => {
         console.error(err);
-    });
-    
-    fs.writeFile(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify(opts), (err) => {
-        if (err) console.error(err);
     });
 }
 

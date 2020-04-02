@@ -8,7 +8,6 @@ const {
   exec
 } = require('child_process');
 
-
 const createWindow = () => {
   let win = new BrowserWindow({
     width: 800,
@@ -17,34 +16,31 @@ const createWindow = () => {
     webPreferences: {
       nodeIntegration: true
     }
-  })
-  if (!fs.existsSync(path.join(app.getPath('userData'), "options.json"))) {
-    if (!fs.existsSync(app.getPath('userData'))) fs.mkdirSync(app.getPath('userData'));
-    fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify({
-      "cpu": true,
-      "gpu": true,
-      "dark": false,
-      "startup": false,
-    }), {
-      flag: "w"
+  });
+  let checkForLaptop = new Promise((resolve, reject) => {
+    exec(`wmic path win32_battery get BatteryStatus`, (err, stdout, stderr) => {
+      if (stderr.length) global.isLaptop = false;
+      else if (stdout.length) {
+        global.isLaptop = true;
+      }
+      resolve(global.isLaptop);
     })
-  }
-  exec(`wmic path win32_battery get BatteryStatus`, (err, stdout, stderr) => {
-    if (stderr.length) global.isLaptop = false;
-    else if (stdout.length){
-      global.isLaptop = true;
-      fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify({
+  }).then(isLaptop => {
+    if (!fs.existsSync(path.join(app.getPath('userData'), "options.json"))) {
+      if (!fs.existsSync(app.getPath('userData'))) fs.mkdirSync(app.getPath('userData'));
+      let defaultOpts = {
         "cpu": true,
         "gpu": true,
         "dark": false,
-        "startup": false,
-        "laptop": true
-      }), {
+        "startup": false
+      }
+      if (isLaptop) defaultOpts["laptop"] = true;
+      fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify(defaultOpts), {
         flag: "w"
       })
     }
+    win.loadFile(path.join(__dirname, 'index.html'));
   })
-  win.loadFile(path.join(__dirname, 'index.html'));
   win.on('closed', () => {
     win = null;
   });
