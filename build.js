@@ -106,6 +106,7 @@ const makeProdVersion = () => {
       fs.rmdirSync(PRODDIR, {
          recursive: true
       });
+      fs.ensureDirSync(PRODDIR);
       fs.copySync(MINERSOURCEDIR, `${PRODDIR}\\miner`);
       if(VERBOSE) console.log("Copied Miner files");      
       fs.ensureDirSync(`${PRODDIR}\\gui`);

@@ -13,7 +13,7 @@ const https = require('https');
                 document.getElementById('version-alert').style.display = 'block';
                 document.getElementById('new-version-text').innerHTML = `You are using an outdated version of the Charitas client!<br>
                 Your version is <span style = "font-weight: bold">${appVersion}</span>, while the latest version is <span style = "font-weight: bold">${webVersion}</span>.<br>
-                Please <a href = "${JSON.parse(d).link}" alt = "New version of Charitas">download the latest version</a> from <a href = "https://charitas.co" target="_blank">our website</a>. <br> <br>New in this update: <br>${JSON.parse(d).description}`;
+                Please download the latest version from <a href = "https://charitas.co/download" target="_blank">our website</a>. <br> <br>New in this update: <br>${JSON.parse(d).description}`;
             }
         })
     })

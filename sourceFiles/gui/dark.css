@@ -22,3 +22,7 @@ body {
 #mine-button:hover #arrows:not(.on), #mine-button:hover #center-button:not(.on){
    fill: #a3a3a3;
 }
+
+.social svg{
+   fill: #d8d8d8;
+}

@@ -1,5 +1,5 @@
 {
-  "name": "charitas",
+  "name": "Charitas",
   "version": "1.0.0",
   "description": "Use your computer to mine cryptocurrency for charities.",
   "main": "./gui/main.js",

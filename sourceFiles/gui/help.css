@@ -7,3 +7,35 @@
 .subtitle {
    font-size: 1.2rem;
 }
+
+.reset-button{
+   display: block;
+   text-align: center;
+   margin: 8% auto 0;
+   background-color: #e95621;
+   border-radius: 45px;
+   height: 2.3rem;
+   width: 13.3rem;
+   color: white;
+   line-height: 2.4rem;
+}
+
+.social{
+   text-decoration: none;
+   margin: 0 1%;
+}
+
+.social svg{
+   width: 2rem;
+   height: 2rem;
+}
+
+body{
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start
+}
+
+.footer{
+   margin-top: auto;
+}
