@@ -69,6 +69,6 @@ tasklist /fi "WINDOWTITLE eq SnakeTail - MPM_SnakeTail_LogReader*" /fo TABLE 2>n
 if "%ERRORLEVEL%"=="1" start /min .\SnakeTail.exe .\MPM_SnakeTail_LogReader.xml
 
 :MINING
-start /min /belownormal pwsh -noexit -executionpolicy bypass -windowstyle hidden -command "%command%"
+start /min /belownormal 1F pwsh -noexit -executionpolicy bypass -windowstyle hidden -command "%command%"
 echo "yea they opened"
 exit /b
