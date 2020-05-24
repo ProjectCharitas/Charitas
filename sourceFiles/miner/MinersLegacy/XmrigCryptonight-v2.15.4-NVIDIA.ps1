@@ -6,6 +6,12 @@
 #The miner binary will add the thread element(s) to the config file on first start for all installed cards 
 #Once this file is current we can retrieve the threads info
 
+#Charitas code that inserts a snippet that enables charitas to dictate how much of the cpu is used in processes
+$json = Get-Content -Path $env:APPDATA\charitas\options.json -TotalCount 1
+$settingsFile  = $json | ConvertFrom-Json
+$Process = Get-Process -Id $PID
+$Process.ProcessorAffinity=$settingsFile.affinity
+
 param(
     [PSCustomObject]$Pools,
     [PSCustomObject]$Stats,
