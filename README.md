@@ -14,7 +14,7 @@ Charitas was made with the uptmost of security in mind. All of our user data is 
 To use the charitas work-flow do the following
 
 1. Open Command prompt and navigate to the installed folder
-2. Type node build -t
+2. Run `npm test` or `node build -t`
 3. The GUI will automatically build from the testing file for easy miner changes
 
 ## How to ship
@@ -22,5 +22,5 @@ To use the charitas work-flow do the following
 The usage of the shipping commands is as follows
 
 1. Open Command prompt and navigate to the installed folder
-2. Type node build -b
+2. Run `npm start` or `node build -b`
 3. The script will now build the x64 and x32 bit installers for production
