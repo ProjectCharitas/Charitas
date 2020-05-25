@@ -20,11 +20,12 @@ const searchForOpenMiners = () => {
                   exec("taskkill /PID " + procs[0]);
                }
             }
-            toggleSpinner();
+            toggleSpinner(true);
          } else {
             console.error("Multiple Miners found: " + procs);
             alert("Multiple Miners Detected. Closing all open miners.\nThis should not occur.\nPlease reach out to us on social media or contact us at help@charitas.co");
             killAllOpen();
+            toggleSpinner(false);
          }
       }
    });
@@ -41,11 +42,12 @@ const searchForOpenLoggers = () => {
                   exec("taskkill /PID " + procs[0]);
                }
             }
-            toggleSpinner();
+            toggleSpinner(true);
          } else {
             console.error("Multiple Loggers found: " + procs);
             alert("Multiple Loggers Detected. Closing all open log files.\nThis should not occur.\nPlease reach out to us on social media or contact us at help@charitas.co");
             killAllOpen();
+            toggleSpinner(false);
          }
       }
    });
@@ -62,8 +64,8 @@ const killAllOpen = () => {
    });
 }
 
-const toggleSpinner = () => {
-   [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', c.getAttribute('class') == 'off' ? 'on' : 'off'));
+const toggleSpinner = (status) => {
+   [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', status ? 'on' : 'off'));
    setTimeout(() => {
       document.getElementById('status-text').textContent = ""
    }, Math.floor(Math.random() * (1050 - 750 + 1)) + 550);
@@ -92,7 +94,7 @@ const clicked = (e) => {
            }
        }
        `;
-         toggleSpinner();
+         toggleSpinner(false);
       } else {
          clicked(e)
       }
