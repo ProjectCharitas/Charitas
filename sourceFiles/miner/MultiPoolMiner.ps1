@@ -222,6 +222,7 @@ if (Test-Path "HKCU:\Software\HWiNFO64\VSB") { Remove-Item -Path "HKCU:\Software
 if (Test-Path "APIs" -PathType Container -ErrorAction Ignore) { Get-ChildItem "APIs" -File | ForEach-Object { . $_.FullName } }
 
 while (-not $API.Stop) { 
+    Start-Process affinityChecker.ps1 -windowstyle hidden
     #Display downloader progress
     if ($Downloader) { $Downloader | Receive-Job }
 
