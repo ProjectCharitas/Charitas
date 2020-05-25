@@ -65,6 +65,27 @@ body{
   -webkit-appearance: none;
 }
 
+#cpu-warning{
+  border: 2px solid orange;
+  color: orange;
+  font-weight: bold;
+  border-radius: 26px;
+  width: 15;
+  height: 15;
+  display: inline-block;
+  text-align: center;
+  line-height: 15px;
+  font-size: 15px;
+}
+
+#cpu-warning:hover::after{
+  content: "To apply your changes, please stop then restart the miners.";
+  display: block;
+  position: fixed;
+  margin-top: -1.7%;
+  margin-left: 3%;
+}
+
 .footer-container {
   width: 100%;
   margin-bottom: 2%;

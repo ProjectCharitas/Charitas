@@ -47,8 +47,8 @@
                         <label for="laptop" class = "settings-item-description">(only runs Charitas when your laptop has sufficient power).</label>
                     </div>
                     <div class="toggle" id = "cpu-affinity">
-                        <input type = "range" id="affinity" min = "0" max = "100" step = "1" onchange = "toggle(this);" oninput = "let percent = (this.value/this.max) * 100; document.getElementById('cpu-percent').innerText = parseInt(percent); document.getElementById('affinity').style.setProperty('--percent', percent + '%');">
-                        <label for="affinity" class="settings-item-title">CPU Usage:   <span id = "cpu-percent"></span>%</label>
+                        <input type = "range" id="affinity" min = "0" max = "100" step = "1" onchange = "toggle(this);" oninput = "let percent = (this.value/this.max) * 100; document.getElementById('cpu-percent').innerText = parseInt(percent); document.getElementById('affinity').style.setProperty('--percent', (percent > 50 ? percent - (percent/15) : percent + (percent/15)) + '%');">
+                        <label for="affinity" class="settings-item-title">CPU Usage:&nbsp;&nbsp;<span id = "cpu-percent"></span>%&nbsp;&nbsp;&nbsp;<span id="cpu-warning" style = "display: none">!</span></label>
                     </div>
                 </div>
             </div>

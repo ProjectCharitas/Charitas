@@ -58,6 +58,7 @@ const toggle = (e) => {
         opts[e.id] = e.checked;
     }
     else if(e.id = "affinity"){
+        document.getElementById("cpu-warning").style.display = '';
         opts[e.id] = Math.pow(2, e.value) - 1;
     }
 }
