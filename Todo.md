@@ -2,7 +2,7 @@
 
 ##Mining
 
-- Toggler enabled for autostart on laptops
+- Toggler enabled for autostart on laptops (In Progress)
 - Gaming mode
 - CPU Affinity Checker (In Progress)
 
@@ -13,5 +13,6 @@
 
 ##Other
 
-- WGet powershell installer (In progress)
-- Show active miners on website
+- WGet powershell installer (Completed 5/24/20)
+- Show active miners on website (In Progress)
+- Add pictures to website (In Progress)
