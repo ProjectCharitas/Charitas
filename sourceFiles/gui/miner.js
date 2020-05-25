@@ -63,7 +63,7 @@ const killAllOpen = () => {
 }
 
 const toggleSpinner = () => {
-   [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', state ? 'on' : 'off'));
+   [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', c.getAttribute('class') == 'off' ? 'on' : 'off'));
    setTimeout(() => {
       document.getElementById('status-text').textContent = ""
    }, Math.floor(Math.random() * (1050 - 750 + 1)) + 550);

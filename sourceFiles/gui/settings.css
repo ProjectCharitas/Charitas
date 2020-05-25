@@ -43,6 +43,28 @@ body{
   padding: 1%;
 }
 
+#affinity {
+  -webkit-appearance: none;
+  background: transparent;
+  width: 25%;
+  outline: none;
+  --percent: 100%;
+}
+
+#affinity::-webkit-slider-runnable-track{
+  background: linear-gradient(90deg, rgb(32, 160, 255) var(--percent), gray var(--percent));
+  border-radius: 20px;
+}
+
+#affinity::-webkit-slider-thumb{
+  height: 25px;
+  width: 25px;
+  border-radius: 20px;
+  background: #FFFFFF;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
 .footer-container {
   width: 100%;
   margin-bottom: 2%;
