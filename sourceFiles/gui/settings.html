@@ -47,9 +47,8 @@
                         <label for="laptop" class = "settings-item-description">(only runs Charitas when your laptop has sufficient power).</label>
                     </div>
                     <div class="toggle" id = "cpu-affinity">
-                        <input type = "range" id="affinity" min = "0" max = "100" step = "1" onchange = "toggle(this); document.getElementById('cpu-percent').innerText = (this.value/this.max) * 100 + '%'">
-                        <label for="affinity" class="settings-item-title">CPU Usage</label>
-                        <label for="affinity" id = "cpu-percent" class = "settings-item-description"></label>
+                        <input type = "range" id="affinity" min = "0" max = "100" step = "1" onchange = "toggle(this); document.getElementById('cpu-percent').innerText = (this.value/this.max) * 100">
+                        <label for="affinity" class="settings-item-title">CPU Usage:   <span id = "cpu-percent"></span>%</label>
                     </div>
                 </div>
             </div>
@@ -89,7 +88,7 @@
             switch (o) {
                 case "affinity":
                     document.getElementById('affinity').value = Math.sqrt(options[o] + 1);
-                    document.getElementById('cpu-percent').innerText = (Math.sqrt(options[o] + 1) / cores * 100) + '%';
+                    document.getElementById('cpu-percent').innerText = (Math.sqrt(options[o] + 1) / cores * 100);
                 break;
                 default:
                     if (options[o]) {
