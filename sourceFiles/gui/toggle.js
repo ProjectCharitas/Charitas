@@ -58,6 +58,6 @@ const toggle = (e) => {
         opts[e.id] = e.checked;
     }
     else if(e.id = "affinity"){
-        opts[e.id] = Math.pow(e.value, 2) - 1;
+        opts[e.id] = Math.pow(2, e.value) - 1;
     }
 }
