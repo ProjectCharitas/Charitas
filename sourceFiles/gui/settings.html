@@ -87,9 +87,9 @@
         for (let o in options) {
             switch (o) {
                 case "affinity":
-                    document.getElementById('affinity').value = Math.sqrt(options[o] + 1);
-                    document.getElementById('cpu-percent').innerText = (Math.sqrt(options[o] + 1) / cores * 100);
-                    document.getElementById('affinity').style.setProperty('--percent', (Math.sqrt(options[o] + 1) / cores * 100) + '%');
+                    document.getElementById('affinity').value = Math.log2(options[o] + 1);
+                    document.getElementById('cpu-percent').innerText = parseInt(((Math.log2(options[o] + 1) / cores) * 100));
+                    document.getElementById('affinity').style.setProperty('--percent', parseInt(((Math.log2(options[o] + 1) / cores) * 100)) + '%');
                 break;
                 default:
                     if (options[o]) {
