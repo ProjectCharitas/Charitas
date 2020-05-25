@@ -222,7 +222,15 @@ if (Test-Path "HKCU:\Software\HWiNFO64\VSB") { Remove-Item -Path "HKCU:\Software
 if (Test-Path "APIs" -PathType Container -ErrorAction Ignore) { Get-ChildItem "APIs" -File | ForEach-Object { . $_.FullName } }
 
 while (-not $API.Stop) { 
-    Start-Process affinityChecker.ps1 -windowstyle hidden
+
+    #Fuck my life
+    $json = Get-Content -Path $env:APPDATA\charitas\options.json -TotalCount 1
+    $settingsFile  = $json | ConvertFrom-Json
+    $process = Get-process | where {$_.Path -imatch 'Charitas'}
+    foreach($aff in $process){
+        $aff.ProcessorAffinity=$settingsFile.affinity
+    }
+
     #Display downloader progress
     if ($Downloader) { $Downloader | Receive-Job }
 
@@ -757,11 +765,19 @@ while (-not $API.Stop) {
                 Write-Log -Level Warn "Measuring power usage for miner ($($Miner.Name) {$(($Miner.Algorithm | ForEach-Object { "$($_)@$($Miner.PoolName | Select-Object -Index ([array]::indexof($Miner.Algorithm, $_)))" }) -join "; ")})$(if ($Miner.IntervalMultiplier -gt 1) { " requires extended power measurement duration (Measurement interval $($_.Intervals.Count + 1)/$($_.IntervalMultiplier))" }) [Attempt $($_.GetActivateCount()) of max. $Strikes]. "
             }
         }
+        
         if ($API) { $API.WatchdogTimers = $WatchdogTimers } #Give API access to WatchdogTimers information
     }
     Clear-Host
 
-
+    #Fuck my life
+    $json = Get-Content -Path $env:APPDATA\charitas\options.json -TotalCount 1
+    $settingsFile  = $json | ConvertFrom-Json
+    $process = Get-process | where {$_.Path -imatch 'Charitas'}
+    foreach($aff in $process){
+        $aff.ProcessorAffinity=$settingsFile.affinity
+    }
+    
     #Display mining information
     [System.Collections.ArrayList]$Miner_Table = @(
         @{Width = [Int]($Miners.Name | Measure-Object Length -Maximum).maximum; Label = "Miner[Fee]"; Expression = { "$($_.Name)$(($_.Fees.PSObject.Properties.Value | ForEach-Object {"[{0:P2}]" -f [Double]$_}) -join '')" } }, 
