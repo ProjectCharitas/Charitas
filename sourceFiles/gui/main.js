@@ -62,13 +62,6 @@ const createWindow = () => {
         type: "separator"
       },
       {
-        label: "Start Mining",
-        id: "mining",
-        click: function () {
-          
-        }
-      },
-      {
         label: "Settings",
         submenu: [
           {

@@ -4,6 +4,9 @@ const {
    spawn
 } = require('child_process');
 
+const path = require('path');
+const remote = require('electron').remote;
+
 let miner, logger;
 let cooldown = false;
 const COOLDOWN_TIME = 500;
@@ -22,14 +25,17 @@ const searchForOpen = () => {
             } else if (typeof foundLogger == "object") {
                logger = foundLogger;
             }
+            toggleUI(miner !== null);
             resolve(miner, logger);
          })
       }).catch((err) => {
+         console.error(err);
          if (err.includes('Multiple')) {
             killAllOpen().then((closedMiner, closedLogger) => {
                resolve(miner, logger);
             }).catch((err) => reject(err));
          } else if (err.includes("No Instance(s) Available")) {
+            toggleUI(false);
             resolve(null, null);
          }
          reject(err);
@@ -144,7 +150,7 @@ const startMining = (onLaptop) => {
                setTimeout(() => {
                   cooldown = false
                }, COOLDOWN_TIME);
-               resolve(searchForOpen())
+               resolve()
             } else {
                console.log(stdout.toString());
                reject(stdout.toString());
@@ -154,7 +160,8 @@ const startMining = (onLaptop) => {
             reject(error);
          })
       } else {
-         document.getElementById('laptop-alert').style.display = "block"
+         document.getElementById('laptop-alert').style.display = "block";
+         document.getElementById('status-text').textContent = "";
          reject("not allowed to mine");
       }
    });
@@ -224,3 +231,8 @@ const buttonClicked = (element) => {
       }
    }
 }
+
+exports.searchForOpen = searchForOpen;
+exports.startMining = startMining;
+exports.stopMining = stopMining;
+exports.buttonClicked = buttonClicked;
