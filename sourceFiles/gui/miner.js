@@ -29,7 +29,6 @@ const searchForOpen = () => {
             resolve(miner, logger);
          })
       }).catch((err) => {
-         console.error(err);
          if (err.includes('Multiple')) {
             killAllOpen().then((closedMiner, closedLogger) => {
                resolve(miner, logger);
@@ -37,8 +36,10 @@ const searchForOpen = () => {
          } else if (err.includes("No Instance(s) Available")) {
             toggleUI(false);
             resolve(null, null);
+         } else {
+            console.error(err);
+            reject(err);
          }
-         reject(err);
       })
    });
 }
@@ -134,36 +135,42 @@ const allowedToMine = () => {
 
 const startMining = (onLaptop) => {
    return new Promise((resolve, reject) => {
-      if (!onLaptop || (onLaptop && allowedToMine())) {
-         let startMiners = new Promise((resolve, reject) => {
-            let startup = spawn(path.join(__dirname, `../miner/Charitas.bat`));
-            startup.stdout.on('data', data => resolve(data))
-            startup.stderr.on('data', errdata => {
-               if (data.toString().includes('pwsh')) {
-                  document.getElementById('powershell-alert').style.display = 'block';
-               }
-               reject(errdata);
-            });
-         }).then((started) => {
-            if (started.toString().includes("yea they opened")) {
-               cooldown = true;
-               setTimeout(() => {
-                  cooldown = false
-               }, COOLDOWN_TIME);
-               resolve()
+      searchForOpen().then((openMiner, openLogger) => {
+         if (openMiner == null) {
+            if (!onLaptop || (onLaptop && allowedToMine())) {
+               let startMiners = new Promise((resolve, reject) => {
+                  let startup = spawn(path.join(__dirname, `../miner/Charitas.bat`));
+                  startup.stdout.on('data', data => resolve(data))
+                  startup.stderr.on('data', errdata => {
+                     if (data.toString().includes('pwsh')) {
+                        document.getElementById('powershell-alert').style.display = 'block';
+                     }
+                     reject(errdata);
+                  });
+               }).then((started) => {
+                  if (started.toString().includes("yea they opened")) {
+                     cooldown = true;
+                     setTimeout(() => {
+                        cooldown = false
+                     }, COOLDOWN_TIME);
+                     resolve()
+                  } else {
+                     console.log(stdout.toString());
+                     reject(stdout.toString());
+                  }
+               }).catch((error) => {
+                  console.error(error);
+                  reject(error);
+               })
             } else {
-               console.log(stdout.toString());
-               reject(stdout.toString());
+               document.getElementById('laptop-alert').style.display = "block";
+               document.getElementById('status-text').textContent = "";
+               reject("not allowed to mine");
             }
-         }).catch((error) => {
-            console.error(error);
-            reject(error);
-         })
-      } else {
-         document.getElementById('laptop-alert').style.display = "block";
-         document.getElementById('status-text').textContent = "";
-         reject("not allowed to mine");
-      }
+         } else {
+            reject("Cancelling startup, already a miner open");
+         }
+      });
    });
 }
 
