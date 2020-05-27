@@ -4,8 +4,7 @@ const {
    execSync
 } = require("child_process");
 
-let miner;
-let logger;
+let miner, logger;
 let state = false;
 
 const searchForOpenMiners = () => {
@@ -27,6 +26,9 @@ const searchForOpenMiners = () => {
             killAllOpen();
             toggleSpinner(false);
          }
+      }
+      else{
+         toggleSpinner(false);
       }
    });
 }
@@ -50,6 +52,9 @@ const searchForOpenLoggers = () => {
             toggleSpinner(false);
          }
       }
+      else{
+         toggleSpinner(false);
+      }
    });
 }
 
@@ -65,6 +70,12 @@ const killAllOpen = () => {
 }
 
 const toggleSpinner = (status) => {
+   if(status){
+      remote.getGlobal('tray').setImage(path.join(__dirname, '..', "favicon.ico"))
+   }
+   else{
+      remote.getGlobal('tray').setImage(path.join(__dirname, '..', "grayicon.ico"))
+   }
    [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', status ? 'on' : 'off'));
    setTimeout(() => {
       document.getElementById('status-text').textContent = ""

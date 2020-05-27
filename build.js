@@ -73,7 +73,7 @@ const deleteOldTestDir = () => {
          recursive: true
       });
       fs.readdir(`${TESTDIR}`, (err, files) => { //check and make sure it worked
-         if (files.length > 1) { // should only be package.json
+         if (files.length > 3) { // should only be package.json, and the two icons
             reject(`Not all test files were deleted: ${files}`)
          } else {
             resolve("Wiped test dir");
@@ -86,7 +86,9 @@ const copyToTestDir = () => {
    return new Promise((resolve, reject) => {
       fs.ensureDirSync(`${TESTDIR}\\gui`);
       fs.ensureDirSync(`${TESTDIR}\\miner`);
-      fs.copySync(`${SOURCEDIR}\\package.json`, `${TESTDIR}\\package.json`)
+      fs.copySync(`${SOURCEDIR}\\package.json`, `${TESTDIR}\\package.json`);
+      fs.copySync(`${SOURCEDIR}\\favicon.ico`, `${TESTDIR}\\favicon.ico`);
+      fs.copySync(`${SOURCEDIR}\\grayicon.ico`, `${TESTDIR}\\grayicon.ico`);
       const sourceFiles = fs.readdirSync(GUISOURCEDIR);
       //read source directory, write a templated version of each file to test directory
       for (let file of sourceFiles) {
@@ -111,9 +113,12 @@ const makeProdVersion = () => {
       if(VERBOSE) console.log("Copied Miner files");      
       fs.ensureDirSync(`${PRODDIR}\\gui`);
       fs.copySync(`${SOURCEDIR}\\common`, `${PRODDIR}\\gui\\common`);
-      if(VERBOSE) console.log("Copied fonts")
+      if(VERBOSE) console.log("Copied fonts");
+      fs.copySync(`${SOURCEDIR}\\favicon.ico`, `${PRODDIR}\\favicon.ico`);
+      fs.copySync(`${SOURCEDIR}\\grayicon.ico`, `${PRODDIR}\\grayicon.ico`);
+      if(VERBOSE) console.log("Copied icons");
       fs.copySync(`${SOURCEDIR}\\node_modules`, `${PRODDIR}\\node_modules`);
-      if(VERBOSE) console.log("Copied node_modules")
+      if(VERBOSE) console.log("Copied node_modules");
       fs.copySync(`${SOURCEDIR}\\package.json`, `${PRODDIR}\\package.json`);
       for (let file of fs.readdirSync(GUISOURCEDIR)) {
          if (isF(file)) {

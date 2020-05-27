@@ -1,6 +1,8 @@
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  Tray,
+  Menu
 } = require('electron');
 const path = require('path');
 const fs = require('fs');
@@ -10,6 +12,7 @@ const {
 
 const createWindow = () => {
   let win = new BrowserWindow({
+    show: false,
     width: 800,
     height: 600,
     resizable: true,
@@ -17,6 +20,9 @@ const createWindow = () => {
       nodeIntegration: true
     }
   });
+  win.once('ready-to-show', () => {
+    win.show()
+  })
   let checkForLaptop = new Promise((resolve, reject) => {
     exec(`wmic path win32_battery get BatteryStatus`, (err, stdout, stderr) => {
       if (stderr.length) global.isLaptop = false;
@@ -39,10 +45,53 @@ const createWindow = () => {
         flag: "w"
       })
     }
+    const sysTray = new Tray(path.join(__dirname, "..", "favicon.ico"));
+    sysTray.setContextMenu(Menu.buildFromTemplate([{
+        label: "Force Quit",
+        click: function () {
+          win.destroy();
+        }
+      },
+      {
+        label: "Open Charitas",
+        click: function () {
+          win.show();
+        }
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "Start Mining",
+        id: "mining",
+        click: function () {
+          
+        }
+      },
+      {
+        label: "Settings",
+        submenu: [
+          {
+            label: "Dark Mode",
+          },
+          {
+            label: "CPU"
+          }, 
+          {
+            label: "GPU"
+          }
+      ]
+      }
+    ]));
+    sysTray.on('click', function () {
+      sysTray.popUpContextMenu();
+    });
+    global.tray = sysTray;
     win.loadFile(path.join(__dirname, 'index.html'));
-  })
-  win.on('closed', () => {
-    win = null;
+  });
+  win.on('close', (event) => {
+    event.preventDefault();
+    win.hide();
   });
 }
 
