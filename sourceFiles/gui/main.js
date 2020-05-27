@@ -88,7 +88,7 @@ const createWindow = () => {
   });
 }
 
-app.on('ready', createWindow);
+app.once('ready', createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -99,5 +99,8 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (win === null) {
     createWindow();
+  }
+  else {
+    win.show();
   }
 });
