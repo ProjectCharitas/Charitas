@@ -6,6 +6,8 @@ const {
 
 const path = require('path');
 const remote = require('electron').remote;
+const fs = require('fs');
+const opts = JSON.parse(fs.readFileSync(`${process.env.APPDATA}\\charitas\\options.json`));
 
 let miner, logger;
 let cooldown = false;
@@ -163,8 +165,10 @@ const startMining = (onLaptop) => {
                   reject(error);
                })
             } else {
+               if(typeof document !== 'undefined'){
                document.getElementById('laptop-alert').style.display = "block";
                document.getElementById('status-text').textContent = "";
+               }
                reject("not allowed to mine");
             }
          } else {
@@ -192,11 +196,16 @@ const stopMining = () => {
 
 const toggleUI = (status) => {
    if (status) {
-      remote.getGlobal('tray').setImage(path.join(__dirname, '..', "favicon.ico"));
-      [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', 'on'));
+      if (remote && typeof document !== 'undefined') {
+         remote.getGlobal('tray').setImage(path.join(__dirname, '..', "favicon.ico"));
+         remote.getGlobal('tray').setContextMenu(remote.getGlobal('menuStop'));
+         [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', 'on'));
+      }
    } else {
-      remote.getGlobal('tray').setImage(path.join(__dirname, '..', "grayicon.ico"));
-      document.getElementById("anim-off").innerHTML = `
+      if (remote && typeof document !== 'undefined') {
+         remote.getGlobal('tray').setImage(path.join(__dirname, '..', "grayicon.ico"));
+         remote.getGlobal('tray').setContextMenu(remote.getGlobal('menuStart'))
+         document.getElementById("anim-off").innerHTML = `
        @keyframes unspin {
            from {
                transform: rotate(${-1 * (Math.asin(getComputedStyle(document.getElementById("arrows"))['transform'].replace(/[a-z()]/g,"").split(",")[1]) * 180/Math.PI)}deg);
@@ -206,11 +215,14 @@ const toggleUI = (status) => {
            }
        }
        `;
-      [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', 'off'));
+         [document.getElementById('mine-button').children[3], document.getElementById('mine-button').children[4]].forEach(c => c.setAttribute('class', 'off'));
+      }
    }
-   setTimeout(() => {
-      document.getElementById('status-text').textContent = ""
-   }, Math.floor(Math.random() * (1050 - 750 + 1)) + 550);
+   if (typeof document !== 'undefined') {
+      setTimeout(() => {
+         document.getElementById('status-text').textContent = "";
+      }, Math.floor(Math.random() * (1050 - 750 + 1)) + 750);
+   }
 }
 
 const buttonClicked = (element) => {

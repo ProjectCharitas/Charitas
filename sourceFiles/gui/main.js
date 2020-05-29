@@ -10,6 +10,7 @@ const {
   exec
 } = require('child_process');
 const os = require('os');
+const miner = require('./miner.js')
 
 win = null;
 
@@ -42,7 +43,7 @@ const createWindow = () => {
         "gpu": true,
         "dark": false,
         "startup": false,
-        "affinity": Math.pow(2, Math.ceil(os.cpus().length * 0.75)) -1
+        "affinity": Math.pow(2, Math.ceil(os.cpus().length * 0.75)) - 1
       }
       if (isLaptop) defaultOpts["laptop"] = true;
       fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify(defaultOpts), {
@@ -50,7 +51,7 @@ const createWindow = () => {
       })
     }
     const sysTray = new Tray(path.join(__dirname, "..", "favicon.ico"));
-    sysTray.setContextMenu(Menu.buildFromTemplate([{
+    const sysMenuStart = Menu.buildFromTemplate([{
         label: "Force Quit",
         click: function () {
           win.destroy();
@@ -61,12 +62,62 @@ const createWindow = () => {
         click: function () {
           win.show();
         }
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "Start Mining",
+        id: "mining",
+        click: function () {
+          console.log(global.isLaptop);
+          miner.startMining(global.isLaptop).catch((err) => {
+            console.log(err);
+            if(err.includes("not allowed to mine")){
+              sysTray.displayBalloon({
+                iconType: 'warning',
+                title: 'Laptop Mode',
+                content: 'Your settings prevent Charitas from launching without a sufficient power source. Please plug in your device or disable Laptop Mode in the settings.'
+              })
+            }
+          })
+          win.reload();
+          sysTray.setContextMenu(sysMenuStop);
+        }
       }
-    ]));
+    ]);
+    const sysMenuStop = Menu.buildFromTemplate([{
+        label: "Force Quit",
+        click: function () {
+          win.destroy();
+        }
+      },
+      {
+        label: "Open Charitas",
+        click: function () {
+          win.show();
+        }
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "Stop Mining",
+        id: "mining",
+        click: function () {
+          miner.stopMining();
+          win.reload();
+          sysTray.setContextMenu(sysMenuStart);
+        }
+      }
+    ]);
+    sysTray.setContextMenu(sysMenuStart);
     sysTray.on('click', function () {
       sysTray.popUpContextMenu();
     });
     global.tray = sysTray;
+    global.menuStart = sysMenuStart;
+    global.menuStop = sysMenuStop;
     win.loadFile(path.join(__dirname, 'index.html'));
   });
   win.on('close', (event) => {
@@ -76,7 +127,6 @@ const createWindow = () => {
 }
 
 const gotTheLock = app.requestSingleInstanceLock()
-console.log(gotTheLock);
 
 if (!gotTheLock) {
   app.quit()
@@ -105,8 +155,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (win === null) {
     createWindow();
-  }
-  else {
+  } else {
     win.show();
   }
 });
