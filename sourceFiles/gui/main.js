@@ -10,8 +10,10 @@ const {
   exec
 } = require('child_process');
 
+let win = null;
+
 const createWindow = () => {
-  let win = new BrowserWindow({
+  win = new BrowserWindow({
     show: false,
     width: 800,
     height: 600,
@@ -88,7 +90,26 @@ const createWindow = () => {
   });
 }
 
-app.once('ready', createWindow);
+const gotTheLock = app.requestSingleInstanceLock()
+console.log(gotTheLock);
+
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore();
+      win.show();
+      win.focus();
+    }
+  })
+
+  // Create myWindow, load the rest of the app, etc...
+  app.once('ready', createWindow);
+}
+
+
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

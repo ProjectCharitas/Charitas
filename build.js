@@ -2,12 +2,15 @@ const fs = require('fs-extra');
 const min = require('node-minify');
 const packager = require('electron-packager');
 const path = require('path');
-const {exec, execSync} = require('child_process');
+const {
+   exec,
+   execSync
+} = require('child_process');
 
 const GUISOURCEDIR = path.join(__dirname, `sourceFiles\\gui`),
    MINERSOURCEDIR = path.join(__dirname, `sourceFiles\\miner`),
    SOURCEDIR = path.join(__dirname, `sourceFiles`);
-   TESTDIR = path.join(__dirname, `testApp`),
+TESTDIR = path.join(__dirname, `testApp`),
    PRODDIR = path.join(__dirname, `prodApp`),
    X32DIR = path.join(__dirname, `x32Compiled`),
    X64DIR = path.join(__dirname, `x64Compiled`),
@@ -30,9 +33,10 @@ fs.ensureDirSync(RELEASEDIR);
 const args = process.argv.slice(2).map(e => e.replace(/-/g, ''));
 const VERBOSE = !args.includes("q");
 
-let SKIP32 = false, SKIP64 = false;
-if(args.includes("32") && !args.includes("64")) SKIP64 = true;
-else if(args.includes("64") && !args.includes("32")) SKIP32 = true;
+let SKIP32 = false,
+   SKIP64 = false;
+if (args.includes("32") && !args.includes("64")) SKIP64 = true;
+else if (args.includes("64") && !args.includes("32")) SKIP32 = true;
 
 const isF = (n) => {
    return n.indexOf('.') > -1; //quick and dirty way to check if an entry is a file, there has got to be a better way
@@ -110,15 +114,15 @@ const makeProdVersion = () => {
       });
       fs.ensureDirSync(PRODDIR);
       fs.copySync(MINERSOURCEDIR, `${PRODDIR}\\miner`);
-      if(VERBOSE) console.log("Copied Miner files");      
+      if (VERBOSE) console.log("Copied Miner files");
       fs.ensureDirSync(`${PRODDIR}\\gui`);
       fs.copySync(`${SOURCEDIR}\\common`, `${PRODDIR}\\gui\\common`);
-      if(VERBOSE) console.log("Copied fonts");
+      if (VERBOSE) console.log("Copied fonts");
       fs.copySync(`${SOURCEDIR}\\favicon.ico`, `${PRODDIR}\\favicon.ico`);
       fs.copySync(`${SOURCEDIR}\\grayicon.ico`, `${PRODDIR}\\grayicon.ico`);
-      if(VERBOSE) console.log("Copied icons");
+      if (VERBOSE) console.log("Copied icons");
       fs.copySync(`${SOURCEDIR}\\node_modules`, `${PRODDIR}\\node_modules`);
-      if(VERBOSE) console.log("Copied node_modules");
+      if (VERBOSE) console.log("Copied node_modules");
       fs.copySync(`${SOURCEDIR}\\package.json`, `${PRODDIR}\\package.json`);
       for (let file of fs.readdirSync(GUISOURCEDIR)) {
          if (isF(file)) {
@@ -141,7 +145,7 @@ const makeProdVersion = () => {
             })
          }
       }
-      if(VERBOSE) console.log("Minified source files")
+      if (VERBOSE) console.log("Minified source files")
       if (fs.existsSync(`${PRODDIR}\\gui`) && fs.existsSync(`${PRODDIR}\\miner`)) {
          resolve("Created prod directory");
       } else {
@@ -189,10 +193,9 @@ const compileVersion = () => {
             });
             // fs.unlinkSync(`${X64DIR}\\resources\\app\\package-lock.json`);
             fs.readdir(__dirname, (err, files) => {
-               if(files.includes("x32Compiled") && files.includes("x64Compiled")){
+               if (files.includes("x32Compiled") && files.includes("x64Compiled")) {
                   resolve("Created x32 and x64 electron apps");
-               }
-               else {
+               } else {
                   reject("Could not bundle prod into electron apps")
                }
             })
@@ -203,39 +206,42 @@ const compileVersion = () => {
 
 const compileInstallers = () => {
    return new Promise((resolve, reject) => {
-      if(fs.existsSync(`${RELEASEDIR}\\Charitas-INSTALLER-x64.exe`)){
+      if (fs.existsSync(`${RELEASEDIR}\\Charitas-INSTALLER-x64.exe`)) {
          fs.unlinkSync(`${RELEASEDIR}\\Charitas-INSTALLER-x64.exe`);
       }
-      if(fs.existsSync(`${RELEASEDIR}\\Charitas-INSTALLER-x32.exe`)){
+      if (fs.existsSync(`${RELEASEDIR}\\Charitas-INSTALLER-x32.exe`)) {
          fs.unlinkSync(`${RELEASEDIR}\\Charitas-INSTALLER-x32.exe`);
       }
-      if(VERBOSE) console.log("Deleted old installers");
-      if(!SKIP64) {
-         if(VERBOSE){
+      if (VERBOSE) console.log("Deleted old installers");
+      if (!SKIP64) {
+         if (VERBOSE) {
             console.log("Compiling x64 installer");
             execSync(`compil32 /cc "${SOURCEDIR}\\Installerx64.iss"`);
-         }
-         else{ 
+         } else {
             execSync(`iscc "${SOURCEDIR}\\Installerx64.iss"`);
          }
       }
-      if(!SKIP32) {
-         if(VERBOSE){
-            console.log("Compiling x32 installer"); 
-            execSync(`compil32 /cc "${SOURCEDIR}\\Installerx32.iss"`); 
-         }
-         else{    
+      if (!SKIP32) {
+         if (VERBOSE) {
+            console.log("Compiling x32 installer");
+            execSync(`compil32 /cc "${SOURCEDIR}\\Installerx32.iss"`);
+         } else {
             execSync(`iscc "${SOURCEDIR}\\Installerx32.iss"`);
          }
       }
       fs.readdir(RELEASEDIR, (err, files) => {
-         if(files.length !== 2){
+         if (files.length !== 2 && (!SKIP32 || !SKIP64)) {
             reject("Both installers were not successfully created");
+         } else {
+            if (!SKIP32 && !SKIP64) {
+               resolve("Created installers");
+            } else if (SKIP32) {
+               resolve("Created x64 installer");
+            } else if (SKIP64) {
+               resolve("Created x32 installer");
+            }
          }
-         else {
-            resolve("Created installers")
-         }
-      })    
+      })
    })
 }
 
@@ -243,11 +249,11 @@ if (args.includes("t")) {
    deleteOldTestDir().then(result => {
       console.log(result);
       copyToTestDir().then(result => {
-         console.log(result);         
+         console.log(result);
          exec(`cd ${TESTDIR} && "${path.join(SOURCEDIR, "node_modules\\.bin\\electron")}" ."`, (error, stdout, stderr) => {
-            if (error||stderr) {
+            if (error || stderr) {
                console.error(`Exec error: ${error||stderr}`);
-             }
+            }
          })
       })
    }).catch(err => console.log(err));
