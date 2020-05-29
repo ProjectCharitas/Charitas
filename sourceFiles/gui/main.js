@@ -9,8 +9,9 @@ const fs = require('fs');
 const {
   exec
 } = require('child_process');
+const os = require('os');
 
-let win = null;
+win = null;
 
 const createWindow = () => {
   win = new BrowserWindow({
@@ -40,7 +41,8 @@ const createWindow = () => {
         "cpu": true,
         "gpu": true,
         "dark": false,
-        "startup": false
+        "startup": false,
+        "affinity": Math.pow(2, Math.ceil(os.cpus().length * 0.75)) -1
       }
       if (isLaptop) defaultOpts["laptop"] = true;
       fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify(defaultOpts), {
@@ -59,23 +61,6 @@ const createWindow = () => {
         click: function () {
           win.show();
         }
-      },
-      {
-        type: "separator"
-      },
-      {
-        label: "Settings",
-        submenu: [
-          {
-            label: "Dark Mode",
-          },
-          {
-            label: "CPU"
-          }, 
-          {
-            label: "GPU"
-          }
-      ]
       }
     ]));
     sysTray.on('click', function () {
