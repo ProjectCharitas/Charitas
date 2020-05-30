@@ -8,14 +8,11 @@ cd /d %~dp0
 ::    IF "%%A"=="gputoggle" SET gputog=%%B
 ::)
 
-set OnAC=false
-wmic path win32_battery get BatteryStatus || goto fuckCMD
-set cmd=WMIC /NameSpace:\\root\WMI Path BatteryStatus Get PowerOnline
-%cmd% | find /i "true" > nul && set OnAC=true
-if %OnAC% == false (goto eof)
+wmic path Win32_Battery Get BatteryStatus | find /v "BatteryStatus" | find "1" >nul 2>&1
+if "%errorlevel%" == "0" (goto eof) else (goto fuck)
 
-:fuckCMD
-echo fuckthis
+:fuck
+echo plugged in
 
 setlocal enabledelayedexpansion
 set json=
