@@ -3,16 +3,21 @@
 ##Mining
 
 - Toggler enabled for autostart on laptops (In Progress)
-- Gaming mode
-- CPU Affinity Checker (In Progress)
+- Gaming mode (In Progress)
+- CPU Affinity Checker (Completed 5/25/20)
+- Pause mining instead of stopping
+- Add support for 6+ Gpu Systems
+- Stop miners if user is below a certain battery usage
 
 ##GUI
 
 - Individual Statistics
-- Pause mining instead of stopping
+- SysTray Icons (Completed 5/29/20)
 
 ##Other
 
 - WGet powershell installer (Completed 5/24/20)
-- Show active miners on website (In Progress)
-- Add pictures to website (In Progress)
+- Show active miners on website (Completed 5/25/20)
+- Add pictures to website (Completed 5/25/20)
+- Launch Cryptocurrency (In Progress)
+- Distribute .net framework

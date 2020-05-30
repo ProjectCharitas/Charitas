@@ -8,6 +8,13 @@ cd /d %~dp0
 ::    IF "%%A"=="gputoggle" SET gputog=%%B
 ::)
 
+set OnAC=false
+wmic path win32_battery get BatteryStatus || goto fuckCMD
+set cmd=WMIC /NameSpace:\\root\WMI Path BatteryStatus Get PowerOnline
+%cmd% | find /i "true" > nul && set OnAC=true
+if %OnAC% == true (goto eof)
+
+:fuckCMD
 setlocal enabledelayedexpansion
 set json=
 for /f "delims=" %%x in (%appdata%\charitas\options.json) do set "json=!json!%%x"
