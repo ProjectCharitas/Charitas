@@ -8,6 +8,15 @@ cd /d %~dp0
 ::    IF "%%A"=="gputoggle" SET gputog=%%B
 ::)
 
+set OnAC=false
+wmic path win32_battery get BatteryStatus || goto fuckCMD
+set cmd=WMIC /NameSpace:\\root\WMI Path BatteryStatus Get PowerOnline
+%cmd% | find /i "true" > nul && set OnAC=true
+if %OnAC% == false (goto eof)
+
+:fuckCMD
+echo fuckthis
+
 setlocal enabledelayedexpansion
 set json=
 for /f "delims=" %%x in (%appdata%\charitas\options.json) do set "json=!json!%%x"
@@ -72,3 +81,5 @@ if "%ERRORLEVEL%"=="1" start /min .\SnakeTail.exe .\MPM_SnakeTail_LogReader.xml
 start /min /belownormal pwsh -noexit -executionpolicy bypass -windowstyle hidden -command "%command%"
 echo "yea they opened"
 exit /b
+
+:eof
