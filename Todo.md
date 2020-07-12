@@ -2,12 +2,13 @@
 
 ##Mining
 
-- Toggler enabled for autostart on laptops (In Progress)
+- Toggler enabled for autostart on laptops (Completed 5/30/20)
 - Gaming mode (In Progress)
 - CPU Affinity Checker (Completed 5/25/20)
 - Pause mining instead of stopping
 - Add support for 6+ Gpu Systems
-- Stop miners if user is below a certain battery usage
+- Stop miners if user is below a certain battery usage (In Progress)
+- Add in the Mark Daniel (Agust) Iniative (Completed 7/8/20)
 
 ##GUI
 
@@ -19,5 +20,5 @@
 - WGet powershell installer (Completed 5/24/20)
 - Show active miners on website (Completed 5/25/20)
 - Add pictures to website (Completed 5/25/20)
-- Launch Cryptocurrency (In Progress)
+- Cryptocurrency EIP20 Backhaul (In Progress)
 - Distribute .net framework

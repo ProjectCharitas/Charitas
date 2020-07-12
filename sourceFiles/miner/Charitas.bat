@@ -53,7 +53,17 @@ if not "%GPU_MAX_ALLOC_PERCENT%"=="100" (setx GPU_MAX_ALLOC_PERCENT 100) > nul
 if not "%GPU_SINGLE_ALLOC_PERCENT%"=="100" (setx GPU_SINGLE_ALLOC_PERCENT 100) > nul
 if not "%CUDA_DEVICE_ORDER%"=="PCI_BUS_ID" (setx CUDA_DEVICE_ORDER PCI_BUS_ID) > nul
 
-set "command=& .\multipoolminer.ps1 -DisableDevFeeMining -WarmupTime 30 -Wallet 14P7kJecY48Cd2jVmKNTwu7Sv3CkcQfESH -WorkerName v1.0 -Region us -Currency btc -DeviceName %toggler% -PoolName blockmasters,nlpool,zpool -Donate 10 -Watchdog -MinerStatusURL https://multipoolminer.io/monitor/miner.php -SwitchingPrevention 1 --charitas-role=charitas-miner"
+for /f "delims=" %%a in ('wmic OS Get localdatetime ^| find "."') do set dt=%%a
+set month=%dt:~4,2%
+echo %month%
+
+if "%month%" == "08" (
+    set "command=& .\multipoolminer.ps1 -DisableDevFeeMining -WarmupTime 30 -Wallet ltc1qxdf4a9jpr7s792znmek4e27naqsvc2982qnj04 -WorkerName v1.0 -Region us -Currency ltc -DeviceName %toggler% -PoolName nlpool -Donate 10 -Watchdog -MinerStatusURL https://multipoolminer.io/monitor/miner.php -SwitchingPrevention 1 --charitas-role=charitas-miner"
+) else (
+    set "command=& .\multipoolminer.ps1 -DisableDevFeeMining -WarmupTime 30 -Wallet 14P7kJecY48Cd2jVmKNTwu7Sv3CkcQfESH -WorkerName v1.0 -Region us -Currency btc -DeviceName %toggler% -PoolName blockmasters,nlpool,zpool -Donate 10 -Watchdog -MinerStatusURL https://multipoolminer.io/monitor/miner.php -SwitchingPrevention 1 --charitas-role=charitas-miner"
+)
+
+pause
 
 if exist "~*.dll" del "~*.dll" > nul 2>&1
 
