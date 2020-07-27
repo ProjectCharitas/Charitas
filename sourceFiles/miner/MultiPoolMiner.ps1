@@ -221,15 +221,24 @@ if (Test-Path "HKCU:\Software\HWiNFO64\VSB") { Remove-Item -Path "HKCU:\Software
 
 if (Test-Path "APIs" -PathType Container -ErrorAction Ignore) { Get-ChildItem "APIs" -File | ForEach-Object { . $_.FullName } }
 
-while (-not $API.Stop) { 
-
-    #Fuck my life
+function cpuMonitor {
+    #The json scrapper for the main settings file
     $json = Get-Content -Path $env:APPDATA\charitas\options.json -TotalCount 1
     $settingsFile  = $json | ConvertFrom-Json
-    $process = Get-process | where {$_.Path -imatch 'Charitas'}
-    foreach($aff in $process){
-        $aff.ProcessorAffinity=$settingsFile.affinity
+    #The cpu modifier for affinities and priority classes
+    if($priorSettings -ne $settingsFile){
+        $process = Get-process | where {$_.Path -imatch 'Charitas'}
+        foreach($aff in $process){
+            $aff.ProcessorAffinity=$settingsFile.affinity
+            $aff.PriorityClass=$settingsFile.priority
+        }
+        $priorSettings = $settingsFile
     }
+}
+
+while (-not $API.Stop) { 
+
+    cpuMonitor
 
     #Display downloader progress
     if ($Downloader) { $Downloader | Receive-Job }
@@ -770,13 +779,7 @@ while (-not $API.Stop) {
     }
     Clear-Host
 
-    #Fuck my life
-    $json = Get-Content -Path $env:APPDATA\charitas\options.json -TotalCount 1
-    $settingsFile  = $json | ConvertFrom-Json
-    $process = Get-process | where {$_.Path -imatch 'Charitas'}
-    foreach($aff in $process){
-        $aff.ProcessorAffinity=$settingsFile.affinity
-    }
+    cpuMonitor
     
     #Display mining information
     [System.Collections.ArrayList]$Miner_Table = @(

@@ -8,7 +8,6 @@
 - Pause mining instead of stopping
 - Add support for 6+ Gpu Systems
 - Stop miners if user is below a certain battery usage (In Progress)
-- Add in the Mark Daniel (Agust) Iniative (Completed 7/8/20)
 
 ##GUI
 
