@@ -221,6 +221,7 @@ if (Test-Path "HKCU:\Software\HWiNFO64\VSB") { Remove-Item -Path "HKCU:\Software
 
 if (Test-Path "APIs" -PathType Container -ErrorAction Ignore) { Get-ChildItem "APIs" -File | ForEach-Object { . $_.FullName } }
 
+#cpuMonitor should be called when the applications need to be adapted to the priorities or affinities (usually twice for best effect)
 function cpuMonitor {
     #The json scrapper for the main settings file
     $json = Get-Content -Path $env:APPDATA\charitas\options.json -TotalCount 1
@@ -235,6 +236,14 @@ function cpuMonitor {
         $priorSettings = $settingsFile
     }
 }
+<#
+#This is the laptop battery checking function (occurs once at the end of the loop)
+function laptopBatteryChecker{
+    $bat = WMIC PATH Win32_Battery Get EstimatedChargeRemaining
+    if($bat -le 30){
+        end
+    }
+}#>
 
 while (-not $API.Stop) { 
 
@@ -1181,7 +1190,12 @@ while (-not $API.Stop) {
     #Get-Job -State Completed | Receive-Job -Wait -AutoRemoveJob
     $Error.Clear()
     [GC]::Collect()
-
+<#
+    if($settingsFile.laptop -eq "true"){
+        if(laptopBatteryChecker){
+            exit
+        }
+    } #>
     Write-Log "Starting next run. "
 }
 
