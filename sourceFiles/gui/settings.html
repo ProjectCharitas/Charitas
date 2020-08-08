@@ -50,6 +50,17 @@
                         <input type = "range" id="affinity" min = "0" max = "100" step = "1" onchange = "toggle(this);" oninput = "let percent = (this.value/this.max) * 100; document.getElementById('cpu-percent').innerText = parseInt(percent); document.getElementById('affinity').style.setProperty('--percent', (percent > 50 ? percent - (percent/15) : percent + (percent/15)) + '%');">
                         <label for="affinity" class="settings-item-title">CPU Usage:&nbsp;&nbsp;<span id = "cpu-percent"></span>%&nbsp;&nbsp;&nbsp;<span id="cpu-warning" style = "display: none">!</span></label>
                     </div>
+                    <div class="toggle">
+                        <div class="select">
+                            <select id = "priority" onchange = "toggle(this);">
+                              <option value="Idle">Low</option>
+                              <option value="BelowNormal">Medium</option>
+                              <option value="Normal">High</option>
+                              <option value="AboveNormal">Turbo</option>
+                            </select>
+                          </div>
+                          <label for="priority" class="settings-item-title">CPU Priority</label>
+                    </div>
                 </div>
             </div>
             <br>
@@ -90,6 +101,9 @@
                     document.getElementById('affinity').value = Math.log2(options[o] + 1);
                     document.getElementById('cpu-percent').innerText = parseInt(((Math.log2(options[o] + 1) / cores) * 100));
                     document.getElementById('affinity').style.setProperty('--percent', parseInt(((Math.log2(options[o] + 1) / cores) * 100)) + '%');
+                break;
+                case "priority": 
+                    document.getElementById('priority').value = options[o];
                 break;
                 default:
                     if (options[o]) {

@@ -10,7 +10,6 @@ const {
   exec
 } = require('child_process');
 const os = require('os');
-const miner = require('./miner.js')
 
 win = null;
 
@@ -43,17 +42,20 @@ const createWindow = () => {
         "gpu": true,
         "dark": false,
         "startup": false,
-        "affinity": Math.pow(2, Math.ceil(os.cpus().length * 0.75)) - 1
+        "affinity": Math.pow(2, Math.ceil(os.cpus().length * 0.75)) - 1,
+        "laptop": isLaptop,
+        "priority": "BelowNormal"
       }
-      if (isLaptop) defaultOpts["laptop"] = true;
       fs.writeFileSync(`${process.env.APPDATA}\\charitas\\options.json`, JSON.stringify(defaultOpts), {
         flag: "w"
       })
     }
     const sysTray = new Tray(path.join(__dirname, "..", "favicon.ico"));
+    const miner = require('./miner.js')
     const sysMenuStart = Menu.buildFromTemplate([{
         label: "Force Quit",
         click: function () {
+          miner.stopMining();
           win.destroy();
         }
       },
@@ -89,6 +91,7 @@ const createWindow = () => {
     const sysMenuStop = Menu.buildFromTemplate([{
         label: "Force Quit",
         click: function () {
+          miner.stopMining();
           win.destroy();
         }
       },
@@ -113,6 +116,9 @@ const createWindow = () => {
     ]);
     sysTray.setContextMenu(sysMenuStart);
     sysTray.on('click', function () {
+      win.show();
+    });
+    sysTray.on('right-click', function () {
       sysTray.popUpContextMenu();
     });
     global.tray = sysTray;

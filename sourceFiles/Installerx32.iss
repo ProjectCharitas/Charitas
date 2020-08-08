@@ -22,6 +22,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 AppContact=Charitas.co
+SignTool=signtool
 DefaultDirName={userdesktop}\..\{#MyAppName}
 UsePreviousAppDir=no
 DefaultGroupName={#MyAppName}

@@ -57,8 +57,12 @@ const toggle = (e) => {
     if(e.type == "checkbox") {
         opts[e.id] = e.checked;
     }
-    else if(e.id = "affinity"){
+    else if(e.id == "affinity"){
         document.getElementById("cpu-warning").style.display = '';
         opts[e.id] = Math.pow(2, e.value) - 1;
+    }
+    else if(e.id == "priority"){
+        opts[e.id] = document.getElementById("priority").value;
+        document.getElementById("cpu-warning").style.display = '';
     }
 }
