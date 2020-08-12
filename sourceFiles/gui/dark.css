@@ -10,6 +10,10 @@ body {
    color: white;
 }
 
+.select > select, .select > select > *{
+   color: black;
+}
+
 #save,
 #cancel {
    text-shadow: 0.1rem 0.1rem black
