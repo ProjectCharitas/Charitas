@@ -241,7 +241,7 @@ function cpuMonitor {
 function laptopBatteryChecker{
     $bat = WMIC PATH Win32_Battery Get EstimatedChargeRemaining
     if($bat -le 30){
-        end
+        return True
     }
 }#>
 
