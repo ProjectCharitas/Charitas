@@ -161,7 +161,7 @@ const startMining = (onLaptop) => {
                      reject(stdout.toString());
                   }
                }).catch((error) => {
-                  console.error(error);
+                  console.error(error.toString());
                   reject(error);
                })
             } else {
