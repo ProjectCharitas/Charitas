@@ -144,7 +144,7 @@ const startMining = (onLaptop) => {
                   let startup = spawn(path.join(__dirname, `../miner/Charitas.bat`));
                   startup.stdout.on('data', data => resolve(data))
                   startup.stderr.on('data', errdata => {
-                     if (data.toString().includes('pwsh')) {
+                     if (errdata.toString().includes('pwsh')) {
                         document.getElementById('powershell-alert').style.display = 'block';
                      }
                      reject(errdata);
