@@ -245,6 +245,8 @@ function laptopBatteryChecker{
     }
 }#>
 
+$host.ui.RawUI.WindowTitle = 'charitasMiner'
+
 while (-not $API.Stop) { 
 
     cpuMonitor

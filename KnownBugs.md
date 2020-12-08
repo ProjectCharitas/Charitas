@@ -7,3 +7,4 @@
 - Behavior on multi-cpu systems is not tested (5/29/20)
 - Behavior on multi-gpu systems is not tested (5/29/20)
 - Manually elevating miners while the GUI is not elevated stops miner closing behavior (5/29/20)
+- Electron sometimes does not initialize correctly when launching from a screen off and sleep enabled behavior (8/14/20)
